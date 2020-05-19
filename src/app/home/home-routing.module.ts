@@ -31,8 +31,18 @@ const routes: Routes = [
       {
         path: 'account',
         loadChildren: () => import('../account/account.module').then(m => m.AccountPageModule)
+      },
+      {
+        path: '',
+        redirectTo: 'campaings',
+        pathMatch: 'full'
       }
     ]
+  },
+  {
+    path: '',
+    redirectTo: 'tabs/campaings',
+    pathMatch: 'full'
   }
 ];
 

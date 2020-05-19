@@ -3,7 +3,17 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebaseConfig: {
+    apiKey: "AIzaSyC6G-qKky5xIChrUN550H1afvTcy55M57Q",
+    authDomain: "rolgrama.firebaseapp.com",
+    databaseURL: "https://rolgrama.firebaseio.com",
+    projectId: "rolgrama",
+    storageBucket: "rolgrama.appspot.com",
+    messagingSenderId: "605792559086",
+    appId: "1:605792559086:web:bac5d96d174be3bb9b38ff",
+    measurementId: "G-2XZ9N8K5ZZ"
+  }
 };
 
 /*

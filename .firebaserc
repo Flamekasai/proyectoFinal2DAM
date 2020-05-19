@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "rolgrama": {
+      "hosting": {
+        "app": [
+          "rolgrama"
+        ]
+      }
+    }
+  }
+}
