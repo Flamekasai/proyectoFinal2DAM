@@ -6,7 +6,7 @@ import { CampaingsPage } from './campaings.page';
 const routes: Routes = [
   {
     path: '',
-    component: CampaingsPage
+    component: CampaingsPage,
   },
   {
     path: 'new-campaing',

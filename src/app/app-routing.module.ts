@@ -8,7 +8,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'home/tabs/campaings',
+    redirectTo: 'home/login',
     pathMatch: 'full'
   },
 ];
