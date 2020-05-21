@@ -35,9 +35,10 @@ export class AuthService {
         console.log('There is no user with this email');
       else if (errorCode === 'auth/wrong-password')
         console.log('Your password is incorrect or you didn\'t set a password to your acount');
+    }).then(() => {
+      if (!bAuthFailed)
+        this.router.navigateByUrl('/home/tabs/campaings');
     });
-    if (!bAuthFailed)
-      this.router.navigateByUrl('/home/tabs/campaings');
   }
 
   logout() {

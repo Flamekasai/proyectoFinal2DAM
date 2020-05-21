@@ -15,7 +15,7 @@
             </ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+            <form #logginForm="ngForm" (ngSubmit)="onSubmit(logginForm)">
               <ion-item>
                 <ion-label position="floating">E-mail</ion-label>
                 <ion-input
@@ -48,7 +48,7 @@
                 type="submit"
                 expand="block"
                 fill="solid"
-                [disabled]="!form.valid"
+                [disabled]="!logginForm.valid"
                 >Login</ion-button>
             </form>
           </ion-card-content>
