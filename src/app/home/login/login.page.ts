@@ -17,6 +17,7 @@ export class LoginPage implements OnInit {
   }
 
   swapAuthMode() { this.bIsLogginMode = !this.bIsLogginMode; }
+  getCurrentModeName() { return this.bIsLogginMode ? 'Sign in' : 'Sign up'; }
 
   onSubmit(form: NgForm) {
     if (!form.valid) { return; }
@@ -27,10 +28,14 @@ export class LoginPage implements OnInit {
       displayName = form.value.displayName;
     }
     form.reset();
-    if (!this.bIsLogginMode)
-      this.authService.signUp(email, password, displayName)
-    else
+    if (!this.bIsLogginMode) {
+      this.authService.signUp(email, password, displayName);
+      this.bIsLogginMode = true;
+    }
+    else {
       this.authService.signIn(email, password);
+
+    }
   }
 
 }

@@ -49,8 +49,11 @@ export class AuthService {
 
   signUp(email: string, password: string, displayName: string) {
     this.auth.createUserWithEmailAndPassword(email, password).then(userCredentials => {
-      console.log(userCredentials.user);
-      this._currentUser = userCredentials.user;
+      userCredentials.user.updateProfile({ displayName: displayName }).then( () => {
+        this._currentUser = userCredentials.user;
+      }, (err) => {
+        console.log(err);
+      });
     }).catch(err => {
       let errorCode = err.code;
       if (errorCode === 'auth/email-already-in-use')
