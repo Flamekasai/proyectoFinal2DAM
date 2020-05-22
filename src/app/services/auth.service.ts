@@ -20,7 +20,7 @@ export class AuthService {
 
   isUserLogged(): boolean { return this._currentUser !== null; }
 
-  login(email: string, password: string) {
+  signIn(email: string, password: string) {
     let bAuthFailed = false;
 
     this.auth.signInWithEmailAndPassword(email, password).catch(err => {
@@ -41,13 +41,13 @@ export class AuthService {
     });
   }
 
-  logout() {
+  signOut() {
     this.auth.signOut();
     this._currentUser = null;
     this.router.navigateByUrl('/home/login');
   }
 
-  signIn(email: string, password: string, displayName: string) {
+  signUp(email: string, password: string, displayName: string) {
     this.auth.createUserWithEmailAndPassword(email, password).then(userCredentials => {
       console.log(userCredentials.user);
       this._currentUser = userCredentials.user;

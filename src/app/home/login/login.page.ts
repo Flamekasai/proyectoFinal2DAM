@@ -9,18 +9,28 @@ import { AuthService } from '../../services/auth.service'
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  private bIsLogginMode = true;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
   }
 
+  swapAuthMode() { this.bIsLogginMode = !this.bIsLogginMode; }
+
   onSubmit(form: NgForm) {
     if (!form.valid) { return; }
     const email = form.value.email;
     const password = form.value.password;
+    let displayName = '';
+    if (!this.bIsLogginMode) {
+      displayName = form.value.displayName;
+    }
     form.reset();
-    this.authService.login(email, password);
+    if (!this.bIsLogginMode)
+      this.authService.signUp(email, password, displayName)
+    else
+      this.authService.signIn(email, password);
   }
 
 }

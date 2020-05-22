@@ -12,6 +12,6 @@ export class CampaingsPage implements OnInit {
   ngOnInit() {
   }
 
-  onLogout() {this.auth.logout()}
+  onSignOut() {this.auth.signOut()}
 
 }
