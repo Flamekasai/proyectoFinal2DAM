@@ -1,9 +1,32 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>account</ion-title>
+    <ion-title>Account</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-avatar style="margin: auto; width: 100px; height: 100px;">
+        <ion-img
+          src=""
+          ></ion-img>
+      </ion-avatar>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-label position="stacked" color="primary">Email</ion-label>
+      <ion-input type="mail" [disabled]="" [value]="this.auth.getCurrentUser().email"></ion-input>
+      <ion-label position="stacked" color="primary">Display Name</ion-label>
+      <ion-input type="text" [disabled]="" [value]="this.auth.getCurrentUser().displayName"></ion-input>
 
+      <!-- TODO: Add logic to change profile and delete,
+        and add change password button when you change the mode to edit. -->
+      <ion-button color="primary">
+        Change Profile data
+      </ion-button>
+      <ion-button color="danger">
+        Delete account
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

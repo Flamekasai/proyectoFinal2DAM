@@ -20,6 +20,8 @@ export class AuthService {
 
   isUserLogged(): boolean { return this._currentUser !== null; }
 
+  getCurrentUser() { return this._currentUser; }
+
   signIn(email: string, password: string) {
     let bAuthFailed = false;
 
@@ -51,6 +53,7 @@ export class AuthService {
     this.auth.createUserWithEmailAndPassword(email, password).then(userCredentials => {
       userCredentials.user.updateProfile({ displayName: displayName }).then( () => {
         this._currentUser = userCredentials.user;
+        this.signIn(email, password);
       }, (err) => {
         console.log(err);
       });

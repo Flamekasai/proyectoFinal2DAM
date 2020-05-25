@@ -40,7 +40,8 @@ const routes: Routes = [
       },
       {
         path: 'account',
-        canLoad: [AuthGuard],
+        // TODO: Restore this line.
+        /* canLoad: [AuthGuard], */
         loadChildren: () => import('../account/account.module').then(m => m.AccountPageModule)
       },
       {
@@ -52,7 +53,8 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'tabs/campaings',
+    //TODO: Change this line back to tabs/campaings
+    redirectTo: 'tabs/account',
     pathMatch: 'full'
   },  {
     path: 'login',
