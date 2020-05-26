@@ -5,16 +5,19 @@ import { auth } from 'firebase/app';
 
 import { Router } from '@angular/router';
 
+import { User } from '../models/user.model';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private _currentUser = null;
-  private _currentUserSub = null;
+  private _firebaseUser = null;
+  private _firebaseUserSub = null;
+  private _currentUser: User = null;
 
   constructor(private auth: AngularFireAuth, private router: Router) {
-    this._currentUserSub = auth.user.subscribe(usr => {
-      this._currentUser = usr;
+    this._firebaseUserSub = auth.user.subscribe(usr => {
+      this._firebaseUser = usr;
     });
   }
 
@@ -25,7 +28,13 @@ export class AuthService {
   signIn(email: string, password: string) {
     let bAuthFailed = false;
 
-    this.auth.signInWithEmailAndPassword(email, password).catch(err => {
+    this.auth.signInWithEmailAndPassword(email, password).then((userCredentials) => {
+      if (!bAuthFailed) {
+        this._firebaseUser = userCredentials.user;
+        this._currentUser = new User(this._firebaseUser.uid, this._firebaseUser.email, this._firebaseUser.displayName);
+        this.router.navigateByUrl('/home/tabs/campaings');
+      }
+    }).catch(err => {
       bAuthFailed = true;
       let errorCode = err.code;
       let errorMessage = err.message;
@@ -37,14 +46,12 @@ export class AuthService {
         console.log('There is no user with this email');
       else if (errorCode === 'auth/wrong-password')
         console.log('Your password is incorrect or you didn\'t set a password to your acount');
-    }).then(() => {
-      if (!bAuthFailed)
-        this.router.navigateByUrl('/home/tabs/campaings');
     });
   }
 
   signOut() {
     this.auth.signOut();
+    this._firebaseUser = null;
     this._currentUser = null;
     this.router.navigateByUrl('/home/login');
   }
@@ -52,7 +59,7 @@ export class AuthService {
   signUp(email: string, password: string, displayName: string) {
     this.auth.createUserWithEmailAndPassword(email, password).then(userCredentials => {
       userCredentials.user.updateProfile({ displayName: displayName }).then( () => {
-        this._currentUser = userCredentials.user;
+        this._firebaseUser = userCredentials.user;
         this.signIn(email, password);
       }, (err) => {
         console.log(err);
