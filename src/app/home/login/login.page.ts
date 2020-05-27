@@ -24,9 +24,19 @@ export class LoginPage implements OnInit {
     const email = form.value.email;
     const password = form.value.password;
     let displayName = '';
+    let password2 = form.value.password2;
+
     if (!this.bIsLogginMode) {
       displayName = form.value.displayName;
+      password2 = form.value.password2;
     }
+
+    if (password2 != password) {
+      // TODO: Presentar el alert con la informacion
+      console.log("You have to match both passwords.");
+      return;
+    }
+
     form.reset();
     if (!this.bIsLogginMode) {
       this.authService.signUp(email, password, displayName);
@@ -34,7 +44,6 @@ export class LoginPage implements OnInit {
     }
     else {
       this.authService.signIn(email, password);
-
     }
   }
 
