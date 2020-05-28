@@ -52,7 +52,6 @@ const routes: Routes = [
   },
   {
     path: '',
-    //TODO: Change this line back to tabs/campaings
     redirectTo: 'tabs/campaings',
     pathMatch: 'full'
   },  {

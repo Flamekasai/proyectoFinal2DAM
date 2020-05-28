@@ -4,6 +4,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
 
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 import { User } from '../models/user.model';
 
@@ -15,7 +16,7 @@ export class AuthService {
   private _firebaseUserSub = null;
   private _currentUser: User = null;
 
-  constructor(private auth: AngularFireAuth, private router: Router) {
+  constructor(private auth: AngularFireAuth, private router: Router, private alertCtrl: AlertController) {
     this._firebaseUserSub = auth.user.subscribe(usr => {
       this._firebaseUser = usr;
     });
@@ -25,27 +26,40 @@ export class AuthService {
 
   getCurrentUser() { return this._currentUser; }
 
+  showAlert(header: string, message: string) {
+    this.alertCtrl.create({
+      header: header,
+      message: message,
+      buttons: ['OK']
+    })
+    .then( alert => {
+      alert.present();
+    })
+  }
+
   signIn(email: string, password: string) {
     let bAuthFailed = false;
 
-    this.auth.signInWithEmailAndPassword(email, password).then((userCredentials) => {
+    this.auth.signInWithEmailAndPassword(email, password)
+    .then((userCredentials) => {
       if (!bAuthFailed) {
         this._firebaseUser = userCredentials.user;
         this._currentUser = new User(this._firebaseUser.uid, this._firebaseUser.email, this._firebaseUser.displayName);
         this.router.navigateByUrl('/home/tabs/campaings');
       }
-    }).catch(err => {
+    })
+    .catch(err => {
       bAuthFailed = true;
       let errorCode = err.code;
       let errorMessage = err.message;
       if (errorCode === 'auth/invalid-email')
-        console.log('The email addres is not valid');
+        this.showAlert('Invalid Email', 'The email addres is not valid');
       else if (errorCode === 'auth/user-disabled')
-        console.log('You user has been disabled');
+        this.showAlert('User disabled', 'You user has been disabled');
       else if (errorCode === 'auth/user-not-found')
-        console.log('There is no user with this email');
+        this.showAlert('User not found', 'There is no user with this email');
       else if (errorCode === 'auth/wrong-password')
-        console.log('Your password is incorrect or you didn\'t set a password to your acount');
+        this.showAlert('Invalid password', 'Your password is incorrect or you didn\'t set a password to your acount');
     });
   }
 
@@ -57,14 +71,17 @@ export class AuthService {
   }
 
   signUp(email: string, password: string, displayName: string) {
-    this.auth.createUserWithEmailAndPassword(email, password).then(userCredentials => {
-      userCredentials.user.updateProfile({ displayName: displayName }).then( () => {
+    this.auth.createUserWithEmailAndPassword(email, password)
+    .then(userCredentials => {
+      userCredentials.user.updateProfile({ displayName: displayName })
+      .then( () => {
         this._firebaseUser = userCredentials.user;
         this.signIn(email, password);
       }, (err) => {
         console.log(err);
       });
-    }).catch(err => {
+    })
+    .catch(err => {
       let errorCode = err.code;
       if (errorCode === 'auth/email-already-in-use')
         console.log('There\'s already an account with this email address');

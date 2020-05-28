@@ -3,6 +3,8 @@ import { NgForm } from '@angular/forms';
 
 import { AuthService } from '../../services/auth.service'
 
+import { AlertController } from '@ionic/angular';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -11,7 +13,7 @@ import { AuthService } from '../../services/auth.service'
 export class LoginPage implements OnInit {
   private bIsLogginMode = true;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private alertCtrl: AlertController) {}
 
   ngOnInit() {}
 
@@ -32,8 +34,14 @@ export class LoginPage implements OnInit {
       password2 = form.value.password2;
 
       if (password2 != password) {
-        // TODO: Presentar el alert con la informacion
-        console.log("You have to match both passwords.");
+        this.alertCtrl.create({
+          header: 'Passwords don\'t match',
+          message: 'You have to match both passwords.',
+          buttons: ['OK']
+        })
+        .then( alert => {
+          alert.present();
+        });
         return;
       }
 
