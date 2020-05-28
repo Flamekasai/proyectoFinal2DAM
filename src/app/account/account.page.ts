@@ -26,4 +26,6 @@ export class AccountPage implements OnInit {
     this.currentDisplayName = user.getName();
   }
 
+  onSignOut() { this.auth.signOut() }
+
 }

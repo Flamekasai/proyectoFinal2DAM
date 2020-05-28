@@ -13,14 +13,15 @@ export class LoginPage implements OnInit {
 
   constructor(private authService: AuthService) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   swapAuthMode() { this.bIsLogginMode = !this.bIsLogginMode; }
+
   getCurrentModeName() { return this.bIsLogginMode ? 'Sign in' : 'Sign up'; }
 
   onSubmit(form: NgForm) {
     if (!form.valid) { return; }
+
     const email = form.value.email;
     const password = form.value.password;
     let displayName = '';
@@ -29,22 +30,23 @@ export class LoginPage implements OnInit {
     if (!this.bIsLogginMode) {
       displayName = form.value.displayName;
       password2 = form.value.password2;
-    }
 
-    if (password2 != password) {
-      // TODO: Presentar el alert con la informacion
-      console.log("You have to match both passwords.");
-      return;
+      if (password2 != password) {
+        // TODO: Presentar el alert con la informacion
+        console.log("You have to match both passwords.");
+        return;
+      }
+
     }
 
     form.reset();
     if (!this.bIsLogginMode) {
       this.authService.signUp(email, password, displayName);
       this.bIsLogginMode = true;
-    }
-    else {
+    } else {
       this.authService.signIn(email, password);
     }
+
   }
 
 }
