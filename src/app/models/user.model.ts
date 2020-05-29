@@ -1,8 +1,10 @@
 export class User {
-  constructor(private _id: string, private _email: string, private _name: string) {}
 
-  getId() { return this._id; }
-  getEmail() { return this._email; }
-  getName() { return this._name; }
+  constructor(private id: string, private email: string, private name: string) {}
+
+  setId(id: string) { this.id = id; }
+  getId() { return this.id; }
+  getEmail() { return this.email; }
+  getName() { return this.name; }
 
 }

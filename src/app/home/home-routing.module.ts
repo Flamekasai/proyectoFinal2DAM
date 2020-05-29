@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomePage } from './home.page';
 
-import { AuthGuard } from '../services/auth.guard';
+import { AuthGuard } from '../services/auth/auth.guard';
 
 const routes: Routes = [
   {
@@ -10,6 +10,7 @@ const routes: Routes = [
     loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
   },
   {
+    // TODO: Restore comented lines
     path: 'tabs',
     component: HomePage,
     children: [
@@ -18,12 +19,12 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            canLoad: [AuthGuard],
+            /* canLoad: [AuthGuard], */
             loadChildren: () => import('../campaings/campaings.module').then( m => m.CampaingsPageModule)
           },
           {
             path: 'new-campaing',
-            canLoad: [AuthGuard],
+            /* canLoad: [AuthGuard], */
             loadChildren: () => import('../campaings/new-campaing/new-campaing.module').then(m => m.NewCampaingPageModule)
           },
           {

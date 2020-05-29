@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { AuthService } from '../services/auth.service';
-
-import { AlertController } from '@ionic/angular';
+import { AuthService } from '../services/auth/auth.service';
 
 @Component({
   selector: 'app-account',
@@ -10,7 +8,7 @@ import { AlertController } from '@ionic/angular';
   styleUrls: ['./account.page.scss'],
 })
 export class AccountPage implements OnInit {
-  private _bIsEditing = false;
+  private bIsEditing = false;
 
   private currentEmail: string;
   private currentDisplayName: string;

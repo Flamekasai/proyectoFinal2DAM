@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
+
 @Component({
   selector: 'app-campaings',
   templateUrl: './campaings.page.html',
@@ -7,7 +7,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class CampaingsPage implements OnInit {
 
-  constructor(private auth: AuthService) { }
+  constructor() { }
 
   ngOnInit() {
   }

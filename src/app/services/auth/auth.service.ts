@@ -6,25 +6,29 @@ import { auth } from 'firebase/app';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 
-import { User } from '../models/user.model';
+import { User } from '../../models/user.model';
+import { UsersRepository } from '../database/users-repository.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private _firebaseUser = null;
-  private _firebaseUserSub = null;
-  private _currentUser: User = null;
+  private firebaseUser = null;
+  private firebaseUserSub = null;
+  private currentUser: User = null;
 
-  constructor(private auth: AngularFireAuth, private router: Router, private alertCtrl: AlertController) {
-    this._firebaseUserSub = auth.user.subscribe(usr => {
-      this._firebaseUser = usr;
-    });
-  }
+  constructor(private auth: AngularFireAuth,
+              private router: Router,
+              private alertCtrl: AlertController,
+              private usersRepository: UsersRepository) {
+                this.firebaseUserSub = auth.user.subscribe(usr => {
+                  this.firebaseUser = usr;
+                });
+              }
 
-  isUserLogged(): boolean { return this._currentUser !== null; }
+  isUserLogged(): boolean { return this.currentUser !== null; }
 
-  getCurrentUser() { return this._currentUser; }
+  getCurrentUser() { return this.currentUser; }
 
   showAlert(header: string, message: string) {
     this.alertCtrl.create({
@@ -43,8 +47,8 @@ export class AuthService {
     this.auth.signInWithEmailAndPassword(email, password)
     .then((userCredentials) => {
       if (!bAuthFailed) {
-        this._firebaseUser = userCredentials.user;
-        this._currentUser = new User(this._firebaseUser.uid, this._firebaseUser.email, this._firebaseUser.displayName);
+        this.firebaseUser = userCredentials.user;
+        this.currentUser = new User(this.firebaseUser.uid, this.firebaseUser.email, this.firebaseUser.displayName);
         this.router.navigateByUrl('/home/tabs/campaings');
       }
     })
@@ -65,8 +69,8 @@ export class AuthService {
 
   signOut() {
     this.auth.signOut();
-    this._firebaseUser = null;
-    this._currentUser = null;
+    this.firebaseUser = null;
+    this.currentUser = null;
     this.router.navigateByUrl('/home/login');
   }
 
@@ -75,7 +79,9 @@ export class AuthService {
     .then(userCredentials => {
       userCredentials.user.updateProfile({ displayName: displayName })
       .then( () => {
-        this._firebaseUser = userCredentials.user;
+        this.firebaseUser = userCredentials.user;
+        let newUser = new User(this.firebaseUser.uid, this.firebaseUser.email, this.firebaseUser.displayName);
+        this.usersRepository.add(newUser);
         this.signIn(email, password);
       }, (err) => {
         console.log(err);
