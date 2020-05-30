@@ -68,6 +68,7 @@ export class AuthService {
   }
 
   signOut() {
+    // Calls firebase signOut then clears cached and navigates.
     this.auth.signOut();
     this.firebaseUser = null;
     this.currentUser = null;
@@ -81,7 +82,7 @@ export class AuthService {
       .then( () => {
         this.firebaseUser = userCredentials.user;
         let newUser = new User(this.firebaseUser.uid, this.firebaseUser.email, this.firebaseUser.displayName);
-        this.usersRepository.add(newUser);
+        this.usersRepository.create(newUser);
         this.signIn(email, password);
       }, (err) => {
         console.log(err);
@@ -97,6 +98,23 @@ export class AuthService {
         console.log('The operation is not allowed');
       else if (errorCode === 'auth/weak-password')
         console.log('Your password is too weak');
+    });
+  }
+
+  update(id: string, email: string, name: string){
+    if ( id === this.currentUser.getId() )
+      this.firebaseUser.updateProfile({email: email, name: name})
+
+    this.usersRepository.update(id, email, name);
+  }
+
+  delete() {
+    this.usersRepository.delete(this.currentUser.getId())
+    .then(() => {
+      this.firebaseUser.delete()
+      .then(() => {
+      this.signOut();
+      })
     });
   }
 }

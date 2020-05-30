@@ -17,7 +17,7 @@ export class UsersRepository {
     this.users = this.collection.valueChanges();
   }
 
-  add(user: User) {
+  create(user: User) {
     this.collection.doc(user.getId()).set({
       id: user.getId(),
       email: user.getEmail(),
@@ -26,9 +26,9 @@ export class UsersRepository {
   }
 
   get(id: string) {
-    let docRef = this.afs.collection('users').doc(id);
+    let docRef = this.collection.doc(id);
 
-    let user = docRef.get().toPromise()
+    return docRef.get().toPromise()
     .then((doc) => {
       if (!doc.exists) {
         console.log('No se encontro el usuario.')
@@ -39,6 +39,20 @@ export class UsersRepository {
       return new User(data.id, data.email, data.name);
     });
 
-    return user;
+
+  }
+
+  update(id: string, email: string, name: string) {
+    let docRef = this.collection.doc(id);
+    return docRef.update({email: email, name: name});
+  }
+
+  delete(id: string) {
+    let docRef = this.collection.doc(id);
+    return docRef.delete()
+    .catch(err => {
+      if (err.errorCode === 'auth/requires-recent-login')
+        console.log('Requires recent login.');
+    });
   }
 }

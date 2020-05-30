@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AlertController } from '@ionic/angular';
+
 import { AuthService } from '../services/auth/auth.service';
 
 @Component({
@@ -13,7 +15,7 @@ export class AccountPage implements OnInit {
   private currentEmail: string;
   private currentDisplayName: string;
 
-  constructor(private auth: AuthService) { }
+  constructor(private alertCtrl: AlertController, private auth: AuthService) {}
 
   ngOnInit() {
   }
@@ -25,5 +27,20 @@ export class AccountPage implements OnInit {
   }
 
   onSignOut() { this.auth.signOut() }
+
+  deleteAccount() {
+    this.alertCtrl.create({
+      header: 'Are you sure?',
+      message: 'Deleting an account cannot be undone. Are you sure you want to delete it?',
+      buttons: [
+        { text: 'Cancel', role: 'cancel'},
+        { text: 'Proceed', handler: () => {
+            this.auth.delete();
+          }
+        }
+      ]
+    })
+    .then( alert => { alert.present(); } );
+  }
 
 }

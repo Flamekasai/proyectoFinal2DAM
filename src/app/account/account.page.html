@@ -34,7 +34,7 @@
               [value]="this.currentDisplayName"
               ></ion-input>
 
-            <!-- TODO: Add logic to change profile and delete,
+            <!-- TODO: Add logic to change profile,
               and add change password button when you change the mode to edit. -->
             <ion-button
               color="primary"
@@ -46,6 +46,7 @@
               color="danger"
               expand="block"
               fill="outline"
+              (click)="deleteAccount()"
               >Delete account</ion-button>
 
             <ion-button
@@ -53,6 +54,7 @@
               expand="block"
               (click)='onSignOut()'
               >Log out</ion-button>
+
           </ion-card-content>
         </ion-card>
       </ion-col>

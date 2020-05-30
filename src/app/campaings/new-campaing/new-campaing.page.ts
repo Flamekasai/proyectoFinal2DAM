@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { AlertController } from '@ionic/angular';
+
 import { UsersRepository } from '../../services/database/users-repository.service';
 
 @Component({
@@ -10,7 +12,7 @@ import { UsersRepository } from '../../services/database/users-repository.servic
 export class NewCampaingPage implements OnInit {
   private participantNames = ['Maria', 'Sarah'];
 
-  constructor(private usersRepository: UsersRepository) { }
+  constructor(private alertCtrl: AlertController, private usersRepository: UsersRepository) { }
 
   ngOnInit() {
   }
@@ -20,7 +22,13 @@ export class NewCampaingPage implements OnInit {
     .then((user) => {
       if (user)
         this.participantNames.push(user.getName());
-      //TODO: Show toast about user not found.
+      else
+        this.alertCtrl.create({
+          header: 'Error',
+          message: 'User not found',
+          buttons: ['Ok']
+        })
+        .then(alert => { alert.present(); });
     })
   }
 }
