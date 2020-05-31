@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 
 import { UsersRepository } from '../../services/database/users-repository.service';
+import { User } from '../../models/user.model';
 
 @Component({
   selector: 'app-new-campaing',
@@ -10,7 +11,8 @@ import { UsersRepository } from '../../services/database/users-repository.servic
   styleUrls: ['./new-campaing.page.scss'],
 })
 export class NewCampaingPage implements OnInit {
-  private participantNames = ['Maria', 'Sarah'];
+  private participants: User[] = [];
+  private participantsIds: string[] = [];
 
   constructor(private alertCtrl: AlertController, private usersRepository: UsersRepository) { }
 
@@ -18,10 +20,13 @@ export class NewCampaingPage implements OnInit {
   }
 
   addParticipant(participantId: string) {
+    if (participantId === '')
+      return;
+
     this.usersRepository.get(participantId)
     .then((user) => {
       if (user)
-        this.participantNames.push(user.getName());
+        this.participants.push(user);
       else
         this.alertCtrl.create({
           header: 'Error',
@@ -30,5 +35,11 @@ export class NewCampaingPage implements OnInit {
         })
         .then(alert => { alert.present(); });
     })
+  }
+
+  removeParticipant(participantId: string) {
+    let newParticipants = this.participants
+    .filter(currentParticipant => currentParticipant.getId() !== participantId);
+    this.participants = newParticipants;
   }
 }
