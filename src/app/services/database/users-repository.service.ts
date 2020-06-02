@@ -38,8 +38,6 @@ export class UsersRepository {
       let data = doc.data();
       return new User(data.id, data.email, data.name);
     });
-
-
   }
 
   update(id: string, email: string, name: string) {

@@ -1,10 +1,17 @@
 export class Campaing {
-  constructor(private title: string, private master: string, private participants: string[]){}
 
-  getTitle() { return this.title; }
-  getMaster() { return this.master; }
-  getParticipants() { return this.participants; }
+  constructor(
+    private id: string = '',
+    private title: string,
+    private master: string,
+    private participants: string[]) {}
 
-  // TODO: Add dashboard
+    setId(id: string) { this.id = id; }
+    getId() { return this.id; }
+    getTitle() { return this.title; }
+    getMaster() { return this.master; }
+    getParticipants() { return this.participants; }
+
+    // TODO: Add dashboard
 
 }

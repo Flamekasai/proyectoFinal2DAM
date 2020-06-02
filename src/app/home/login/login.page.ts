@@ -22,7 +22,7 @@ export class LoginPage implements OnInit {
   getCurrentModeName() { return this.bIsLogginMode ? 'Sign in' : 'Sign up'; }
 
   onSubmit(form: NgForm) {
-    if (!form.valid) { return; }
+    if (!form.valid) return;
 
     const email = form.value.email;
     const password = form.value.password;
