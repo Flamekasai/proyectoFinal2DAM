@@ -15,27 +15,27 @@ const routes: Routes = [
     component: HomePage,
     children: [
       {
-        path: 'campaings',
+        path: 'campaigns',
         children: [
           {
             path: '',
             /* canLoad: [AuthGuard], */
-            loadChildren: () => import('../campaings/campaings.module').then( m => m.CampaingsPageModule)
+            loadChildren: () => import('../campaigns/campaigns.module').then( m => m.CampaignsPageModule)
           },
           {
-            path: 'new-campaing',
+            path: 'new-campaign',
             /* canLoad: [AuthGuard], */
-            loadChildren: () => import('../campaings/new-campaing/new-campaing.module').then(m => m.NewCampaingPageModule)
+            loadChildren: () => import('../campaigns/new-campaign/new-campaign.module').then(m => m.NewCampaignPageModule)
           },
           {
-            path: 'edit-campaing/:campaingId',
+            path: 'edit-campaign/:campaignId',
             canLoad: [AuthGuard],
-            loadChildren: () => import('../campaings/edit-campaing/edit-campaing.module').then(m => m.EditCampaingPageModule)
+            loadChildren: () => import('../campaigns/edit-campaign/edit-campaign.module').then(m => m.EditCampaignPageModule)
           },
           {
-            path: ':campaingId',
+            path: ':campaignId',
             canLoad: [AuthGuard],
-            loadChildren: () => import('../campaings/campaing-details/campaing-details.module').then(m => m.CampaingDetailsPageModule)
+            loadChildren: () => import('../campaigns/campaign-details/campaign-details.module').then(m => m.CampaignDetailsPageModule)
           }
         ]
       },
@@ -46,14 +46,14 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: 'campaings',
+        redirectTo: 'campaigns',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: 'tabs/campaings',
+    redirectTo: 'tabs/campaigns',
     pathMatch: 'full'
   },  {
     path: 'login',

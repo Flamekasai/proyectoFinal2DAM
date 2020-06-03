@@ -19,7 +19,7 @@ export class LoginPage implements OnInit {
 
   swapAuthMode() { this.bIsLogginMode = !this.bIsLogginMode; }
 
-  getCurrentModeName() { return this.bIsLogginMode ? 'Sign in' : 'Sign up'; }
+  getCurrentModeName() { return this.bIsLogginMode ? 'Iniciar sesión' : 'Registrarse'; }
 
   onSubmit(form: NgForm) {
     if (!form.valid) return;
@@ -35,8 +35,8 @@ export class LoginPage implements OnInit {
 
       if (password2 != password) {
         this.alertCtrl.create({
-          header: 'Passwords don\'t match',
-          message: 'You have to match both passwords.',
+          header: 'Las contraseñas no son iguales',
+          message: 'Las contraseñas tienen que coincidir.',
           buttons: ['OK']
         })
         .then( alert => {

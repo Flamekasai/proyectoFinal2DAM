@@ -6,22 +6,22 @@ import { AlertController } from '@ionic/angular';
 
 import { UsersRepository } from '../../services/database/users-repository.service';
 import { User } from '../../models/user.model';
-import { CampaingsRepository } from '../../services/database/campaings-repository.service';
-import { Campaing } from '../../models/campaing.model';
+import { CampaignsRepository } from '../../services/database/campaigns-repository.service';
+import { Campaign } from '../../models/campaign.model';
 
 @Component({
-  selector: 'app-new-campaing',
-  templateUrl: './new-campaing.page.html',
-  styleUrls: ['./new-campaing.page.scss'],
+  selector: 'app-new-campaign',
+  templateUrl: './new-campaign.page.html',
+  styleUrls: ['./new-campaign.page.scss'],
 })
-export class NewCampaingPage implements OnInit {
+export class NewCampaignPage implements OnInit {
   private participants: User[] = [];
   private participantsIds: string[] = [];
 
   constructor(
     private alertCtrl: AlertController,
     private usersRepository: UsersRepository,
-    private campaingsRepository: CampaingsRepository,
+    private campaignsRepository: CampaignsRepository,
     private router: Router) { }
 
   ngOnInit() {
@@ -41,7 +41,7 @@ export class NewCampaingPage implements OnInit {
       else {
         this.alertCtrl.create({
           header: 'Error',
-          message: 'User not found',
+          message: 'No se ha encontrado el usuario.',
           buttons: ['Ok']
         })
         .then(alert => { alert.present(); });
@@ -63,7 +63,7 @@ export class NewCampaingPage implements OnInit {
   checkMaster(masterId: string) {
   }
 
-  createCampaing(form: NgForm) {
+  createCampaign(form: NgForm) {
     if (!form.valid) return;
 
     const title = form.value.title;
@@ -72,7 +72,7 @@ export class NewCampaingPage implements OnInit {
       if (!master) {
         this.alertCtrl.create({
           header: 'Error',
-          message: 'Master not found',
+          message: 'No se ha encontrado el master.',
           buttons: ['Ok']
         })
         .then(alert => {
@@ -83,9 +83,9 @@ export class NewCampaingPage implements OnInit {
       }
 
       form.reset();
-      let newCampaing = new Campaing('', title, master.getId(), this.participantsIds);
-      this.campaingsRepository.create(newCampaing);
-      this.router.navigateByUrl('/home/tabs/campaings');
+      let newCampaign = new Campaign('', title, master.getId(), this.participantsIds);
+      this.campaignsRepository.create(newCampaign);
+      this.router.navigateByUrl('/home/tabs/campaigns');
     });
 
   }

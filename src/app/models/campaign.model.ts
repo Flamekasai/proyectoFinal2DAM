@@ -1,4 +1,4 @@
-export class Campaing {
+export class Campaign {
 
   constructor(
     private id: string = '',

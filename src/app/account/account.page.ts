@@ -30,11 +30,11 @@ export class AccountPage implements OnInit {
 
   deleteAccount() {
     this.alertCtrl.create({
-      header: 'Are you sure?',
-      message: 'Deleting an account cannot be undone. Are you sure you want to delete it?',
+      header: '¿Estas seguro?',
+      message: 'Una vez borrada, no se puede recuperar.',
       buttons: [
-        { text: 'Cancel', role: 'cancel'},
-        { text: 'Proceed', handler: () => {
+        { text: 'Cancelar', role: 'cancel'},
+        { text: 'Borrar', handler: () => {
             this.auth.delete();
           }
         }

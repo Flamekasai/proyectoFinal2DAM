@@ -49,7 +49,7 @@ export class AuthService {
       if (!bAuthFailed) {
         this.firebaseUser = userCredentials.user;
         this.currentUser = new User(this.firebaseUser.uid, this.firebaseUser.email, this.firebaseUser.displayName);
-        this.router.navigateByUrl('/home/tabs/campaings');
+        this.router.navigateByUrl('/home/tabs/campaigns');
       }
     })
     .catch(err => {
@@ -57,13 +57,13 @@ export class AuthService {
       let errorCode = err.code;
       let errorMessage = err.message;
       if (errorCode === 'auth/invalid-email')
-        this.showAlert('Invalid Email', 'The email addres is not valid');
+        this.showAlert('Email inválido', 'Esa cuenta de correo no existe o no es válida.');
       else if (errorCode === 'auth/user-disabled')
-        this.showAlert('User disabled', 'You user has been disabled');
+        this.showAlert('Usuario deshabilitado', 'El usuario al que intentas acceder ha sido deshabilitado.');
       else if (errorCode === 'auth/user-not-found')
-        this.showAlert('User not found', 'There is no user with this email');
+        this.showAlert('No se encuentra el usuario', 'No existe ningún usuario con esa cuenta.');
       else if (errorCode === 'auth/wrong-password')
-        this.showAlert('Invalid password', 'Your password is incorrect or you didn\'t set a password to your acount');
+        this.showAlert('Contraseña equivocada', 'La contraseña que has introducido no es correcta.');
     });
   }
 
@@ -91,13 +91,13 @@ export class AuthService {
     .catch(err => {
       let errorCode = err.code;
       if (errorCode === 'auth/email-already-in-use')
-        console.log('There\'s already an account with this email address');
+          this.showAlert('Usuario en uso', 'Ya existe un usuario con ese email.');
       else if (errorCode === 'auth/invalid-email')
-        console.log('The email addres is not valid');
+          this.showAlert('Email inválido', 'Esa cuenta de correo no es válida.');
       else if (errorCode === 'auth/operation-not-allowed')
-        console.log('The operation is not allowed');
+          this.showAlert('Operación no permitida', 'Esa operación no esta permitida.');
       else if (errorCode === 'auth/weak-password')
-        console.log('Your password is too weak');
+          this.showAlert('Contraseña débil', 'La contraseña es muy sencilla.');
     });
   }
 

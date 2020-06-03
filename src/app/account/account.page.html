@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Account</ion-title>
+    <ion-title>Perfil</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -27,7 +27,7 @@
             <ion-label
               position="stacked"
               color="primary"
-              >Display Name</ion-label>
+              >Nombre</ion-label>
             <ion-input
               type="text"
               [disabled]="this.bIsEditing"
@@ -41,21 +41,21 @@
               expand="block"
               fill="solid"
               (click)="this.bIsEditing = !this.bIsEditing"
-              >Change Profile data</ion-button>
+              >Actualizar datos</ion-button>
 
             <ion-button
               color="danger"
               expand="block"
               fill="solid"
               (click)="deleteAccount()"
-              >Delete account</ion-button>
+              >Eliminar cuenta</ion-button>
 
             <ion-button
               color="danger"
               expand="block"
               fill="outline"
               (click)='onSignOut()'
-              >Log out</ion-button>
+              >Cerrar sesión</ion-button>
 
           </ion-card-content>
         </ion-card>

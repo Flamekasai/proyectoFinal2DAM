@@ -1,6 +1,9 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>New campaing</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home/tabs/campaigns"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Nueva campaña</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -10,12 +13,12 @@
       <ion-col size-md="6" offset-md="3">
         <ion-card>
           <ion-card-content>
-            <form #createCampaingForm="ngForm" (ngSubmit)="createCampaing(createCampaingForm)">
+            <form #createCampaignForm="ngForm" (ngSubmit)="createCampaign(createCampaignForm)">
               <ion-list>
 
-                <!-- Title of the campaing -->
+                <!-- Title of the campaign -->
                 <ion-item>
-                  <ion-label position="floating">Title</ion-label>
+                  <ion-label position="floating">Título</ion-label>
                   <ion-input
                     type="text"
                     ngModel
@@ -27,10 +30,10 @@
                 <ion-item
                   *ngIf="!titleCtrl.valid && titleCtrl.touched"
                   lines="none"
-                  ><ion-label>* Title can't be empty</ion-label>
+                  ><ion-label color="danger">* El título no puede estar vacío.</ion-label>
                 </ion-item>
 
-                <!-- Master of the campaing -->
+                <!-- Master of the campaign -->
                 <ion-item>
                   <ion-label position="floating">Master</ion-label>
                   <ion-input
@@ -44,24 +47,19 @@
                 <ion-item
                   *ngIf="!masterCtrl.valid && masterCtrl.touched"
                   lines="none"
-                  ><ion-label>* Master can't be empty</ion-label>
+                  ><ion-label color="danger">* El master no puede estar vacío.</ion-label>
                 </ion-item>
 
                 <!-- Participants input -->
                 <ion-item>
-                  <ion-label position="floating">Add people</ion-label>
+                  <ion-label position="floating">Añadir participante</ion-label>
                   <ion-input type="text" #newParticipantCtrl></ion-input>
                 </ion-item>
                 <ion-button
                   color="primary"
                   fill="outline"
                   (click)="addParticipant(newParticipantCtrl)"
-                  >Add participant</ion-button>
-                <ion-item
-                  *ngIf="this.participantsIds.length === 0"
-                  lines="none"
-                  ><ion-label>* You must have participants</ion-label>
-                </ion-item>
+                  >Añadir participante</ion-button>
 
                 <!-- Create button -->
                 <ion-button
@@ -69,14 +67,17 @@
                   type="submit"
                   expand="block"
                   fill="solid"
-                  [disabled]="!createCampaingForm.valid || this.participantsIds.length === 0"
-                  >
-                  Create campaing
-                </ion-button>
+                  [disabled]="!createCampaignForm.valid || this.participantsIds.length === 0"
+                  >Crear campaña</ion-button>
 
                 <!-- Participants list -->
+                <ion-item
+                  *ngIf="this.participantsIds.length === 0"
+                  lines="none"
+                  ><ion-label color="danger">* La campaña tiene que tener participantes.</ion-label>
+                </ion-item>
                 <ion-item>
-                  <ion-text color="primary" class="small-list">Participants</ion-text>
+                  <ion-text color="primary" class="small-list">Participantes</ion-text>
                 </ion-item>
                 <ion-item
                   lines="none"

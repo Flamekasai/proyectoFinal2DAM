@@ -3,27 +3,27 @@ import { Observable } from 'rxjs';
 
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 
-import { Campaing } from '../../models/campaing.model';
+import { Campaign } from '../../models/campaign.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CampaingsRepository {
-  private collection: AngularFirestoreCollection<Campaing>;
-  private campaings: Observable<Campaing[]>;
+export class CampaignsRepository {
+  private collection: AngularFirestoreCollection<Campaign>;
+  private campaigns: Observable<Campaign[]>;
 
   constructor(private afs: AngularFirestore) {
-    this.collection = afs.collection<Campaing>('campaings');
-    this.campaings = this.collection.valueChanges();
+    this.collection = afs.collection<Campaign>('campaigns');
+    this.campaigns = this.collection.valueChanges();
   }
 
-  create(campaing: Campaing) {
-    campaing.setId(this.afs.createId());
-    this.collection.doc(campaing.getId()).set({
-      id: campaing.getId(),
-      title: campaing.getTitle(),
-      master: campaing.getMaster(),
-      participants: campaing.getParticipants()
+  create(campaign: Campaign) {
+    campaign.setId(this.afs.createId());
+    this.collection.doc(campaign.getId()).set({
+      id: campaign.getId(),
+      title: campaign.getTitle(),
+      master: campaign.getMaster(),
+      participants: campaign.getParticipants()
     });
   }
 
@@ -38,7 +38,7 @@ export class CampaingsRepository {
       }
 
       let data = doc.data();
-      return new Campaing(data.id, data.title, data.master, data.participants);
+      return new Campaign(data.id, data.title, data.master, data.participants);
     });
   }
 
@@ -51,7 +51,7 @@ export class CampaingsRepository {
     let docRef = this.collection.doc(id);
     return docRef.delete()
     .catch(() => {
-      console.log('Failed deleting the campaing.');
+      console.log('Failed deleting the campaign.');
     });
   }
 }

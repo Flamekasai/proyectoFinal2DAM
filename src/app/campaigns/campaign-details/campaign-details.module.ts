@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { NewCampaingPageRoutingModule } from './new-campaing-routing.module';
+import { CampaignDetailsPageRoutingModule } from './campaign-details-routing.module';
 
-import { NewCampaingPage } from './new-campaing.page';
+import { CampaignDetailsPage } from './campaign-details.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    NewCampaingPageRoutingModule
+    CampaignDetailsPageRoutingModule
   ],
-  declarations: [NewCampaingPage]
+  declarations: [CampaignDetailsPage]
 })
-export class NewCampaingPageModule {}
+export class CampaignDetailsPageModule {}
