@@ -1,4 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { AlertController } from '@ionic/angular';
+
+import { AuthService } from '../services/auth/auth.service';
+
+import { UsersRepository } from '../services/database/users-repository.service';
+import { User } from '../models/user.model';
+import { CampaignsRepository } from '../services/database/campaigns-repository.service';
+import { Campaign } from '../models/campaign.model';
 
 @Component({
   selector: 'app-campaigns',
@@ -6,10 +14,47 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./campaigns.page.scss'],
 })
 export class CampaignsPage implements OnInit {
+  private campaigns: Campaign[] = [];
 
-  constructor() { }
+  constructor(
+    private auth: AuthService,
+    private campaignsRepository: CampaignsRepository,
+    private usersRepository: UsersRepository,
+    private alertCtrl: AlertController) { this.updateCampaigns(); }
 
-  ngOnInit() {
-  }
+    ionViewWillEnter() {
+      this.updateCampaigns();
+    }
 
+    ngOnInit() {
+    }
+
+    updateCampaigns() {
+      this.campaignsRepository.getAll()
+      .then(querySnapshot => {
+        if (this.campaigns.length !== querySnapshot.docs.length) {
+          this.campaigns = [];
+          querySnapshot.forEach(doc => {
+            let data = doc.data();
+            let campaign = new Campaign(
+              data.id,
+              data.title,
+              data.master,
+              data.masterName,
+              data.participants,
+              data.participantsNames);
+            let userId = this.auth.getCurrentUser().getId();
+            if (campaign.getMaster() === userId || campaign.getParticipants().includes(userId))
+              this.campaigns.push(campaign);
+          });
+        }
+      });
+    }
+
+    deleteCampaign(campaignId: string) {
+      this.campaignsRepository.delete(campaignId);
+      let newCampaigns = this.campaigns
+      .filter(currentCampaign => currentCampaign.getId() !== campaignId)
+      this.campaigns = newCampaigns;
+    }
 }

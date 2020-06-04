@@ -23,8 +23,14 @@ export class CampaignsRepository {
       id: campaign.getId(),
       title: campaign.getTitle(),
       master: campaign.getMaster(),
-      participants: campaign.getParticipants()
+      masterName: campaign.getMasterName(),
+      participants: campaign.getParticipants(),
+      participantsNames: campaign.getParticipantsNames()
     });
+  }
+
+  getAll() {
+    return this.collection.get().toPromise();
   }
 
   get(id: string) {
@@ -38,7 +44,14 @@ export class CampaignsRepository {
       }
 
       let data = doc.data();
-      return new Campaign(data.id, data.title, data.master, data.participants);
+      return new Campaign(
+        data.id,
+        data.title,
+        data.master,
+        data.masterName,
+        data.participants,
+        data.participantsNames
+      );
     });
   }
 

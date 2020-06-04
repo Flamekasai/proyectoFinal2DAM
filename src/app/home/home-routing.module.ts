@@ -10,7 +10,6 @@ const routes: Routes = [
     loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
   },
   {
-    // TODO: Restore comented lines
     path: 'tabs',
     component: HomePage,
     children: [
@@ -19,12 +18,12 @@ const routes: Routes = [
         children: [
           {
             path: '',
-            /* canLoad: [AuthGuard], */
+            canLoad: [AuthGuard],
             loadChildren: () => import('../campaigns/campaigns.module').then( m => m.CampaignsPageModule)
           },
           {
             path: 'new-campaign',
-            /* canLoad: [AuthGuard], */
+            canLoad: [AuthGuard],
             loadChildren: () => import('../campaigns/new-campaign/new-campaign.module').then(m => m.NewCampaignPageModule)
           },
           {
@@ -55,7 +54,8 @@ const routes: Routes = [
     path: '',
     redirectTo: 'tabs/campaigns',
     pathMatch: 'full'
-  },  {
+  },
+  {
     path: 'login',
     loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
   }

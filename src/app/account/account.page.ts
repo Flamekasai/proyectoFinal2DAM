@@ -34,13 +34,9 @@ export class AccountPage implements OnInit {
       message: 'Una vez borrada, no se puede recuperar.',
       buttons: [
         { text: 'Cancelar', role: 'cancel'},
-        { text: 'Borrar', handler: () => {
-            this.auth.delete();
-          }
-        }
+        { text: 'Borrar', handler: () => { this.auth.delete(); } }
       ]
     })
     .then( alert => { alert.present(); } );
   }
-
 }

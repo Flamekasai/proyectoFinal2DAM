@@ -24,69 +24,78 @@ export class NewCampaignPage implements OnInit {
     private campaignsRepository: CampaignsRepository,
     private router: Router) { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
-  addParticipant(participantInput) {
-    let participantId = participantInput.value;
+    addParticipant(participantInput) {
+      let participantId = participantInput.value;
 
-    if (participantId === '') return;
+      if (participantId === '') return;
 
-    this.usersRepository.get(participantId)
-    .then((user) => {
-      if (user) {
-        this.participants.push(user);
-        this.participantsIds.push(participantId);
-      }
-      else {
-        this.alertCtrl.create({
-          header: 'Error',
-          message: 'No se ha encontrado el usuario.',
-          buttons: ['Ok']
-        })
-        .then(alert => { alert.present(); });
-      }
-    })
-    participantInput.value = '';
-  }
+      this.usersRepository.get(participantId)
+      .then((user) => {
+        if (user) {
+          this.participants.push(user);
+          this.participantsIds.push(participantId);
+        }
+        else {
+          this.alertCtrl.create({
+            header: 'Error',
+            message: 'No se ha encontrado el usuario.',
+            buttons: ['Ok']
+          })
+          .then(alert => {
+            alert.present();
+          });
+        }
+      })
+      participantInput.value = '';
+    }
 
-  removeParticipant(participantId: string) {
-    let newParticipants = this.participants
-    .filter(currentParticipant => currentParticipant.getId() !== participantId);
-    this.participants = newParticipants;
+    removeParticipant(participantId: string) {
+      let newParticipants = this.participants
+      .filter(currentParticipant => currentParticipant.getId() !== participantId);
+      this.participants = newParticipants;
 
-    let newParticipantsIds = this.participantsIds
-    .filter(currentId => currentId !== participantId)
-    this.participantsIds = newParticipantsIds;
-  }
+      let newParticipantsIds = this.participantsIds
+      .filter(currentId => currentId !== participantId)
+      this.participantsIds = newParticipantsIds;
+    }
 
-  checkMaster(masterId: string) {
-  }
+    createCampaign(form: NgForm) {
+      if (!form.valid) return;
 
-  createCampaign(form: NgForm) {
-    if (!form.valid) return;
+      const title = form.value.title;
+      this.usersRepository.get(form.value.master)
+      .then(master => {
+        if (!master) {
+          this.alertCtrl.create({
+            header: 'Error',
+            message: 'No se ha encontrado el master.',
+            buttons: ['Ok']
+          })
+          .then(alert => {
+            alert.present();
+          });
 
-    const title = form.value.title;
-    this.usersRepository.get(form.value.master)
-    .then(master => {
-      if (!master) {
-        this.alertCtrl.create({
-          header: 'Error',
-          message: 'No se ha encontrado el master.',
-          buttons: ['Ok']
-        })
-        .then(alert => {
-          alert.present();
+          return;
+        }
+
+        form.reset();
+        let participantsNames = [];
+        this.participants.forEach(participant => {
+          participantsNames.push(participant.getName());
         });
-
-        return;
-      }
-
-      form.reset();
-      let newCampaign = new Campaign('', title, master.getId(), this.participantsIds);
-      this.campaignsRepository.create(newCampaign);
-      this.router.navigateByUrl('/home/tabs/campaigns');
-    });
-
-  }
+        let newCampaign = new Campaign(
+          '',
+          title,
+          master.getId(),
+          master.getName(),
+          this.participantsIds,
+          participantsNames
+        );
+        this.campaignsRepository.create(newCampaign);
+        this.router.navigateByUrl('/home/tabs/campaigns');
+      });
+    }
 }

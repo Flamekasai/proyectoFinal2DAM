@@ -25,6 +25,10 @@ export class UsersRepository {
     });
   }
 
+  getAll() {
+    return this.collection.get().toPromise();
+  }
+
   get(id: string) {
     let docRef = this.collection.doc(id);
 

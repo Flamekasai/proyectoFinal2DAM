@@ -36,26 +36,26 @@
 
             <!-- TODO: Add logic to change profile,
               and add change password button when you change the mode to edit. -->
-            <ion-button
-              color="primary"
-              expand="block"
-              fill="solid"
-              (click)="this.bIsEditing = !this.bIsEditing"
-              >Actualizar datos</ion-button>
+              <ion-button
+                color="primary"
+                expand="block"
+                fill="solid"
+                (click)="this.bIsEditing = !this.bIsEditing"
+                >Actualizar datos</ion-button>
 
-            <ion-button
-              color="danger"
-              expand="block"
-              fill="solid"
-              (click)="deleteAccount()"
-              >Eliminar cuenta</ion-button>
+              <ion-button
+                color="danger"
+                expand="block"
+                fill="solid"
+                (click)="deleteAccount()"
+                >Eliminar cuenta</ion-button>
 
-            <ion-button
-              color="danger"
-              expand="block"
-              fill="outline"
-              (click)='onSignOut()'
-              >Cerrar sesión</ion-button>
+              <ion-button
+                color="danger"
+                expand="block"
+                fill="outline"
+                (click)='onSignOut()'
+                >Cerrar sesión</ion-button>
 
           </ion-card-content>
         </ion-card>
