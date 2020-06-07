@@ -51,6 +51,32 @@ export class CampaignsPage implements OnInit {
       });
     }
 
+    leaveCampaign(campaignId: string) {
+      this.campaignsRepository.get(campaignId).then(updatedCampaign => {
+        let newParticipants = updatedCampaign.getParticipants()
+        .filter(participant => {
+          participant !== this.auth.getCurrentUser().getId()
+        });
+
+        let newParticipantsNames = updatedCampaign.getParticipantsNames()
+        .filter(participantName => {
+          participantName !== this.auth.getCurrentUser().getName()
+        });
+
+        this.campaignsRepository.update(
+          updatedCampaign.getId(),
+          updatedCampaign.getTitle(),
+          updatedCampaign.getMaster(),
+          updatedCampaign.getMasterName(),
+          newParticipants,
+          newParticipantsNames);
+
+          let newCampaigns = this.campaigns
+          .filter(currentCampaign => currentCampaign.getId() !== updatedCampaign.getId())
+          this.campaigns = newCampaigns;
+      });
+    }
+
     deleteCampaign(campaignId: string) {
       this.campaignsRepository.delete(campaignId);
       let newCampaigns = this.campaigns

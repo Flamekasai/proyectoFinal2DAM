@@ -55,9 +55,9 @@ export class CampaignsRepository {
     });
   }
 
-  update(id: string, title: string, master: string, participants: string[]) {
+  update(id: string, title: string, master: string, masterName: string, participants: string[], participantsNames: string[]) {
     let docRef = this.collection.doc(id);
-    return docRef.update({title: title, master: master, participants: participants});
+    return docRef.update({title: title, master: master, masterName: masterName, participants: participants, participantsNames: participantsNames});
   }
 
   delete(id: string) {

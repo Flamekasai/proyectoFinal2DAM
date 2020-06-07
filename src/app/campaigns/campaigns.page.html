@@ -43,16 +43,25 @@
                 >{{ participantName }}</ion-text>
             </ion-item>
               <ion-button
+                *ngIf="this.auth.getCurrentUser().getId() === campaign.getMaster()"
                 color="primary"
                 expand="block"
                 fill="solid"
                 >Editar</ion-button>
               <ion-button
+                *ngIf="this.auth.getCurrentUser().getId() === campaign.getMaster()"
                 color="danger"
                 expand="block"
                 fill="solid"
                 (click)="deleteCampaign(campaign.id)"
                 >Borrar</ion-button>
+              <ion-button
+                *ngIf="this.auth.getCurrentUser().getId() !== campaign.getMaster()"
+                color="danger"
+                expand="block"
+                fill="solid"
+                (click)="leaveCampaign(campaign.id)"
+                >Abandonar campaña</ion-button>
           </ion-card-content>
         </ion-card>
       </ion-col>
