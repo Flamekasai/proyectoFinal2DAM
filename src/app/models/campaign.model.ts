@@ -8,6 +8,17 @@ export class Campaign {
     private participants: string[],
     private participantsNames: string[]) {}
 
+    static fromCampaign(model: Campaign) {
+      return new Campaign(
+        model.id,
+        model.title,
+        model.master,
+        model.masterName,
+        model.participants,
+        model.participantsNames
+      );
+    }
+
     setId(id: string) { this.id = id; }
     getId() { return this.id; }
     getTitle() { return this.title; }

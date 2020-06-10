@@ -26,7 +26,7 @@ export class UsersRepository {
   }
 
   getAll() {
-    return this.collection.get().toPromise();
+    return this.users;
   }
 
   get(id: string) {

@@ -30,7 +30,7 @@ export class CampaignsRepository {
   }
 
   getAll() {
-    return this.collection.get().toPromise();
+    return this.campaigns;
   }
 
   get(id: string) {

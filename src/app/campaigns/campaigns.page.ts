@@ -20,35 +20,19 @@ export class CampaignsPage implements OnInit {
     private auth: AuthService,
     private campaignsRepository: CampaignsRepository,
     private usersRepository: UsersRepository,
-    private alertCtrl: AlertController) { this.updateCampaigns(); }
-
-    ionViewWillEnter() {
-      this.updateCampaigns();
+    private alertCtrl: AlertController) {
+      this.campaignsRepository.getAll().subscribe(campaigns => {
+        this.campaigns = [];
+        campaigns.forEach(data => {
+          let campaign = Campaign.fromCampaign(data);
+          let userId = this.auth.getCurrentUser().getId();
+          if (campaign.getMaster() === userId || campaign.getParticipants().includes(userId))
+            this.campaigns.push(campaign);
+        });
+      });
     }
 
     ngOnInit() {
-    }
-
-    updateCampaigns() {
-      this.campaignsRepository.getAll()
-      .then(querySnapshot => {
-        if (this.campaigns.length !== querySnapshot.docs.length) {
-          this.campaigns = [];
-          querySnapshot.forEach(doc => {
-            let data = doc.data();
-            let campaign = new Campaign(
-              data.id,
-              data.title,
-              data.master,
-              data.masterName,
-              data.participants,
-              data.participantsNames);
-            let userId = this.auth.getCurrentUser().getId();
-            if (campaign.getMaster() === userId || campaign.getParticipants().includes(userId))
-              this.campaigns.push(campaign);
-          });
-        }
-      });
     }
 
     leaveCampaign(campaignId: string) {
