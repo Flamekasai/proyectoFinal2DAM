@@ -40,12 +40,18 @@
               <ion-item
                 *ngIf="!emailCtrl.valid && emailCtrl.touched"
                 lines="none"
-                ><ion-label color="danger">* Tienes que introducir una dirección de correo válida.</ion-label>
+                >
+                <ion-label color="danger">
+                  * Tienes que introducir una dirección de correo válida.
+                </ion-label>
               </ion-item>
               <ion-item
                 *ngIf="!passCtrl.valid && passCtrl.touched"
                 lines="none"
-                ><ion-label color="danger">* La contraseña tiene que tener 6 carácteres mínimo.</ion-label>
+                >
+                <ion-label color="danger">
+                  * La contraseña tiene que tener 6 carácteres mínimo.
+                </ion-label>
               </ion-item>
               <ion-button
                 class="ion-margin-top"
@@ -98,7 +104,9 @@
                   ></ion-input>
               </ion-item>
               <ion-item>
-                <ion-label position="floating">Confirma la contraseña</ion-label>
+                <ion-label position="floating">
+                  Confirma la contraseña
+                </ion-label>
                 <ion-input
                   type="password"
                   ngModel
@@ -121,22 +129,34 @@
               <ion-item
                 *ngIf="!emailCtrl.valid && emailCtrl.touched"
                 lines="none"
-                ><ion-label color="danger">* Tienes que introducir una dirección de correo válida.</ion-label>
+                >
+                <ion-label color="danger">
+                  * Tienes que introducir una dirección de correo válida.
+                </ion-label>
               </ion-item>
               <ion-item
                 *ngIf="!passCtrl.valid && passCtrl.touched"
                 lines="none"
-                ><ion-label color="danger">* La contraseña tiene que tener 6 carácteres mínimo.</ion-label>
+                >
+                <ion-label color="danger">
+                  * La contraseña tiene que tener 6 carácteres mínimo.
+                </ion-label>
               </ion-item>
               <ion-item
                 *ngIf="pass2Ctrl.value !== passCtrl.value || !pass2Ctrl.valid && pass2Ctrl.touched"
                 lines="none"
-                ><ion-label color="danger">* Las contraseñas no concuerdan.</ion-label>
+                >
+                <ion-label color="danger">
+                  * Las contraseñas no concuerdan.
+                </ion-label>
               </ion-item>
               <ion-item
                 *ngIf="!displayNameCtrl.valid && displayNameCtrl.touched"
                 lines="none"
-                ><ion-label color="danger">* Debes tener un nombre ¿No?</ion-label>
+                >
+                <ion-label color="danger">
+                  * Debes tener un nombre ¿No?
+                </ion-label>
               </ion-item>
               <ion-button
                 class="ion-margin-top"

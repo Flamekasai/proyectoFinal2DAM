@@ -7,7 +7,8 @@ import { AuthGuard } from '../services/auth/auth.guard';
 const routes: Routes = [
   {
     path: 'login',
-    loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule)
+    loadChildren: () => import('./login/login.module')
+    .then(m => m.LoginPageModule)
   },
   {
     path: 'tabs',
@@ -19,29 +20,34 @@ const routes: Routes = [
           {
             path: '',
             canLoad: [AuthGuard],
-            loadChildren: () => import('../campaigns/campaigns.module').then( m => m.CampaignsPageModule)
+            loadChildren: () => import('../campaigns/campaigns.module')
+            .then( m => m.CampaignsPageModule)
           },
           {
             path: 'new-campaign',
             canLoad: [AuthGuard],
-            loadChildren: () => import('../campaigns/new-campaign/new-campaign.module').then(m => m.NewCampaignPageModule)
+            loadChildren: () => import('../campaigns/new-campaign/new-campaign.module')
+            .then(m => m.NewCampaignPageModule)
           },
           {
             path: 'edit-campaign/:campaignId',
             canLoad: [AuthGuard],
-            loadChildren: () => import('../campaigns/edit-campaign/edit-campaign.module').then(m => m.EditCampaignPageModule)
+            loadChildren: () => import('../campaigns/edit-campaign/edit-campaign.module')
+            .then(m => m.EditCampaignPageModule)
           },
           {
             path: ':campaignId',
             canLoad: [AuthGuard],
-            loadChildren: () => import('../campaigns/campaign-details/campaign-details.module').then(m => m.CampaignDetailsPageModule)
+            loadChildren: () => import('../campaigns/campaign-details/campaign-details.module')
+            .then(m => m.CampaignDetailsPageModule)
           }
         ]
       },
       {
         path: 'account',
         canLoad: [AuthGuard],
-        loadChildren: () => import('../account/account.module').then(m => m.AccountPageModule)
+        loadChildren: () => import('../account/account.module')
+        .then(m => m.AccountPageModule)
       },
       {
         path: '',
@@ -57,7 +63,8 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () => import('./login/login.module')
+    .then( m => m.LoginPageModule)
   }
 
 ];

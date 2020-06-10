@@ -20,17 +20,22 @@ export class CampaignsPage implements OnInit {
     private auth: AuthService,
     private campaignsRepository: CampaignsRepository,
     private usersRepository: UsersRepository,
-    private alertCtrl: AlertController) {
-      this.campaignsRepository.getAll().subscribe(campaigns => {
-        this.campaigns = [];
-        campaigns.forEach(data => {
-          let campaign = Campaign.fromCampaign(data);
-          let userId = this.auth.getCurrentUser().getId();
-          if (campaign.getMaster() === userId || campaign.getParticipants().includes(userId))
-            this.campaigns.push(campaign);
-        });
+    private alertCtrl: AlertController)
+  {
+    this.campaignsRepository.getAll().subscribe(campaigns => {
+      this.campaigns = [];
+
+      campaigns.forEach(data => {
+        let campaign = Campaign.fromCampaign(data);
+        let userId = this.auth.getCurrentUser().getId();
+
+        if (campaign.getMaster() === userId ||
+            campaign.getParticipants().includes(userId))
+          this.campaigns.push(campaign);
       });
-    }
+
+    });
+  }
 
     ngOnInit() {
     }
@@ -53,16 +58,21 @@ export class CampaignsPage implements OnInit {
           updatedCampaign.getMaster(),
           updatedCampaign.getMasterName(),
           newParticipants,
-          newParticipantsNames);
+          newParticipantsNames
+        );
 
-          let newCampaigns = this.campaigns
-          .filter(currentCampaign => currentCampaign.getId() !== updatedCampaign.getId())
-          this.campaigns = newCampaigns;
+        let newCampaigns = this.campaigns
+        .filter(currentCampaign => {
+          currentCampaign.getId() !== updatedCampaign.getId()
+        });
+
+        this.campaigns = newCampaigns;
       });
     }
 
     deleteCampaign(campaignId: string) {
       this.campaignsRepository.delete(campaignId);
+
       let newCampaigns = this.campaigns
       .filter(currentCampaign => currentCampaign.getId() !== campaignId)
       this.campaigns = newCampaigns;

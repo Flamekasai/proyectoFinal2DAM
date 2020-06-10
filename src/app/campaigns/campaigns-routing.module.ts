@@ -10,15 +10,18 @@ const routes: Routes = [
   },
   {
     path: 'new-campaign',
-    loadChildren: () => import('./new-campaign/new-campaign.module').then( m => m.NewCampaignPageModule)
+    loadChildren: () => import('./new-campaign/new-campaign.module')
+    .then( m => m.NewCampaignPageModule)
   },
   {
     path: 'edit-campaign',
-    loadChildren: () => import('./edit-campaign/edit-campaign.module').then( m => m.EditCampaignPageModule)
+    loadChildren: () => import('./edit-campaign/edit-campaign.module')
+    .then( m => m.EditCampaignPageModule)
   },
   {
     path: 'campaign-details',
-    loadChildren: () => import('./campaign-details/campaign-details.module').then( m => m.CampaignDetailsPageModule)
+    loadChildren: () => import('./campaign-details/campaign-details.module')
+    .then( m => m.CampaignDetailsPageModule)
   }
 ];
 

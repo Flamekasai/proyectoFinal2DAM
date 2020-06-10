@@ -29,6 +29,14 @@ export class AuthService {
 
     isUserLogged(): boolean { return this.currentUser !== null; }
 
+    refreshCurrentUser() {
+      this.currentUser =
+        new User(
+          this.firebaseUser.uid,
+          this.firebaseUser.email,
+          this.firebaseUser.displayName
+      );
+    }
     getCurrentUser() { return this.currentUser; }
 
     showAlert(header: string, message: string) {
@@ -49,7 +57,7 @@ export class AuthService {
       .then((userCredentials) => {
         if (!bAuthFailed) {
           this.firebaseUser = userCredentials.user;
-          this.currentUser = new User(this.firebaseUser.uid, this.firebaseUser.email, this.firebaseUser.displayName);
+          this.refreshCurrentUser();
           this.router.navigateByUrl('/home/tabs/campaigns');
         }
       })
@@ -58,18 +66,29 @@ export class AuthService {
         let errorCode = err.code;
         let errorMessage = err.message;
         if (errorCode === 'auth/invalid-email')
-          this.showAlert('Email inválido', 'Esa cuenta de correo no existe o no es válida.');
+          this.showAlert(
+            'Email inválido',
+            'Esa cuenta de correo no existe o no es válida.'
+          );
         else if (errorCode === 'auth/user-disabled')
-          this.showAlert('Usuario deshabilitado', 'El usuario al que intentas acceder ha sido deshabilitado.');
+          this.showAlert(
+            'Usuario deshabilitado',
+            'El usuario al que intentas acceder ha sido deshabilitado.'
+          );
         else if (errorCode === 'auth/user-not-found')
-          this.showAlert('No se encuentra el usuario', 'No existe ningún usuario con esa cuenta.');
+          this.showAlert(
+            'No se encuentra el usuario',
+            'No existe ningún usuario con esa cuenta.'
+          );
         else if (errorCode === 'auth/wrong-password')
-          this.showAlert('Contraseña equivocada', 'La contraseña que has introducido no es correcta.');
+          this.showAlert(
+            'Contraseña equivocada',
+            'La contraseña que has introducido no es correcta.'
+          );
       });
     }
 
     signOut() {
-      // Calls firebase signOut then clears cached and navigates.
       this.auth.signOut();
       this.firebaseUser = null;
       this.currentUser = null;
@@ -82,7 +101,12 @@ export class AuthService {
         userCredentials.user.updateProfile({ displayName: displayName })
         .then( () => {
           this.firebaseUser = userCredentials.user;
-          let newUser = new User(this.firebaseUser.uid, this.firebaseUser.email, this.firebaseUser.displayName);
+          this.refreshCurrentUser();
+          let newUser = new User(
+            this.firebaseUser.uid,
+            this.firebaseUser.email,
+            this.firebaseUser.displayName
+          );
           this.usersRepository.create(newUser);
           this.signIn(email, password);
         }, (err) => {
@@ -92,21 +116,37 @@ export class AuthService {
       .catch(err => {
         let errorCode = err.code;
         if (errorCode === 'auth/email-already-in-use')
-          this.showAlert('Usuario en uso', 'Ya existe un usuario con ese email.');
+          this.showAlert(
+            'Usuario en uso',
+            'Ya existe un usuario con ese email.'
+          );
         else if (errorCode === 'auth/invalid-email')
-          this.showAlert('Email inválido', 'Esa cuenta de correo no es válida.');
+          this.showAlert(
+            'Email inválido',
+            'Esa cuenta de correo no es válida.'
+          );
         else if (errorCode === 'auth/operation-not-allowed')
-          this.showAlert('Operación no permitida', 'Esa operación no esta permitida.');
+          this.showAlert(
+            'Operación no permitida',
+            'Esa operación no esta permitida.'
+          );
         else if (errorCode === 'auth/weak-password')
-          this.showAlert('Contraseña débil', 'La contraseña es muy sencilla.');
+          this.showAlert(
+            'Contraseña débil',
+            'La contraseña es muy sencilla.'
+          );
       });
     }
 
     update(id: string, email: string, name: string){
-      if ( id === this.currentUser.getId() )
-        this.firebaseUser.updateProfile({email: email, name: name})
+      if ( id === this.currentUser.getId() ) {
+        this.firebaseUser.updateProfile({displayName: name})
+        .then(newData => {
+          this.refreshCurrentUser();
+        });
+      }
 
-      this.usersRepository.update(id, email, name);
+      this.usersRepository.update(id, this.currentUser.getEmail(), name);
     }
 
     delete() {

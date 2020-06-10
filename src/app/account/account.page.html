@@ -10,7 +10,7 @@
       <ion-col size-md="6" offset-md="3">
         <ion-card>
           <ion-card-header>
-            <ion-avatar style="background-color: white; margin: auto; width: 100px; height: 100px;">
+            <ion-avatar>
               <ion-img></ion-img>
             </ion-avatar>
             <ion-text
@@ -25,8 +25,8 @@
               >Email</ion-label>
             <ion-input
               type="mail"
-              [disabled]="this.bIsEditing"
-              [value]="this.currentEmail"
+              disabled = "true"
+              [(ngModel)]="this.currentEmail"
               ></ion-input>
             <ion-label
               position="stacked"
@@ -34,18 +34,27 @@
               >Nombre</ion-label>
             <ion-input
               type="text"
-              [disabled]="this.bIsEditing"
-              [value]="this.currentDisplayName"
+              [disabled]="!this.bIsEditing"
+              [(ngModel)]="this.currentDisplayName"
               ></ion-input>
+
+            <ion-button
+              *ngIf="this.bIsEditing"
+              color="primary"
+              expand="full"
+              fill="outline"
+              (click)="this.updateAccountInfo()"
+              >Confirmar</ion-button>
 
             <!-- TODO: Add logic to change profile,
               and add change password button when you change the mode to edit. -->
               <ion-button
+                *ngIf="!this.bIsEditing"
                 color="primary"
                 expand="block"
                 fill="solid"
-                (click)="this.bIsEditing = !this.bIsEditing"
-                >Actualizar datos</ion-button>
+                (click)="this.bIsEditing = true"
+                >Actualizar Nombre</ion-button>
 
               <ion-button
                 color="danger"

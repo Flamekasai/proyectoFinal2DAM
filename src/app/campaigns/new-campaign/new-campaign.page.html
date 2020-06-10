@@ -13,7 +13,10 @@
       <ion-col size-md="6" offset-md="3">
         <ion-card>
           <ion-card-content>
-            <form #createCampaignForm="ngForm" (ngSubmit)="createCampaign(createCampaignForm)">
+            <form
+              #createCampaignForm="ngForm"
+              (ngSubmit)="createCampaign(createCampaignForm)"
+              >
               <ion-list>
 
                 <!-- Title of the campaign -->
@@ -30,7 +33,10 @@
                 <ion-item
                   *ngIf="!titleCtrl.valid && titleCtrl.touched"
                   lines="none"
-                  ><ion-label color="danger">* El título no puede estar vacío.</ion-label>
+                  >
+                  <ion-label color="danger">
+                    * El título no puede estar vacío.
+                  </ion-label>
                 </ion-item>
 
                 <!-- Master of the campaign -->
@@ -47,7 +53,10 @@
                 <ion-item
                   *ngIf="!masterCtrl.valid && masterCtrl.touched"
                   lines="none"
-                  ><ion-label color="danger">* El master no puede estar vacío.</ion-label>
+                  >
+                  <ion-label color="danger">
+                    * El master no puede estar vacío.
+                  </ion-label>
                 </ion-item>
 
                 <!-- Participants input -->
@@ -74,10 +83,16 @@
                 <ion-item
                   *ngIf="this.participantsIds.length === 0"
                   lines="none"
-                  ><ion-label color="danger">* La campaña tiene que tener participantes.</ion-label>
+                  >
+                  <ion-label color="danger">
+                    * La campaña tiene que tener participantes.
+                  </ion-label>
                 </ion-item>
                 <ion-item>
-                  <ion-text color="primary" class="small-list">Participantes</ion-text>
+                  <ion-text
+                    color="primary"
+                    class="small-list"
+                    >Participantes</ion-text>
                 </ion-item>
                 <ion-item
                   lines="none"

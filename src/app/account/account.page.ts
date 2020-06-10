@@ -15,7 +15,9 @@ export class AccountPage implements OnInit {
   private currentEmail: string;
   private currentDisplayName: string;
 
-  constructor(private alertCtrl: AlertController, private auth: AuthService) {}
+  constructor(
+    private alertCtrl: AlertController,
+    private auth: AuthService){}
 
   ngOnInit() {
   }
@@ -27,6 +29,20 @@ export class AccountPage implements OnInit {
   }
 
   onSignOut() { this.auth.signOut() }
+
+  updateAccountInfo() {
+    let currentUser = this.auth.getCurrentUser();
+    if (this.currentDisplayName === currentUser.getName())
+      return;
+
+    this.auth.update(
+      currentUser.getId(),
+      this.currentEmail,
+      this.currentDisplayName
+    );
+
+    this.bIsEditing = false;
+  }
 
   deleteAccount() {
     this.alertCtrl.create({

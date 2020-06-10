@@ -13,13 +13,17 @@ import { AlertController } from '@ionic/angular';
 export class LoginPage implements OnInit {
   private bIsLogginMode = true;
 
-  constructor(private authService: AuthService, private alertCtrl: AlertController) {}
+  constructor(
+    private authService: AuthService,
+    private alertCtrl: AlertController) {}
 
   ngOnInit() {}
 
   swapAuthMode() { this.bIsLogginMode = !this.bIsLogginMode; }
 
-  getCurrentModeName() { return this.bIsLogginMode ? 'Iniciar sesión' : 'Registrarse'; }
+  getCurrentModeName() {
+    return this.bIsLogginMode ? 'Iniciar sesión' : 'Registrarse';
+  }
 
   onSubmit(form: NgForm) {
     if (!form.valid) return;
