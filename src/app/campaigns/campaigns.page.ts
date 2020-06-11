@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { AlertController } from '@ionic/angular';
 
 import { AuthService } from '../services/auth/auth.service';
@@ -20,7 +22,8 @@ export class CampaignsPage implements OnInit {
     private auth: AuthService,
     private campaignsRepository: CampaignsRepository,
     private usersRepository: UsersRepository,
-    private alertCtrl: AlertController)
+    private alertCtrl: AlertController,
+    private router: Router)
   {
     this.campaignsRepository.getAll().subscribe(campaigns => {
       this.campaigns = [];
@@ -40,30 +43,36 @@ export class CampaignsPage implements OnInit {
     ngOnInit() {
     }
 
+    editCampaign(campaignId: string) {
+      this.router.navigate(['/home/tabs/campaigns/new-campaign', campaignId]);
+    }
+
     leaveCampaign(campaignId: string) {
-      this.campaignsRepository.get(campaignId).then(updatedCampaign => {
-        let newParticipants = updatedCampaign.getParticipants()
+      this.campaignsRepository.get(campaignId).then(campaignToUpdate => {
+        let newParticipants = campaignToUpdate.getParticipants()
         .filter(participant => {
           participant !== this.auth.getCurrentUser().getId()
         });
 
-        let newParticipantsNames = updatedCampaign.getParticipantsNames()
+        let newParticipantsNames = campaignToUpdate.getParticipantsNames()
         .filter(participantName => {
           participantName !== this.auth.getCurrentUser().getName()
         });
 
-        this.campaignsRepository.update(
-          updatedCampaign.getId(),
-          updatedCampaign.getTitle(),
-          updatedCampaign.getMaster(),
-          updatedCampaign.getMasterName(),
+        let updatedCampaign = new Campaign(
+          campaignToUpdate.getId(),
+          campaignToUpdate.getTitle(),
+          campaignToUpdate.getMaster(),
+          campaignToUpdate.getMasterName(),
           newParticipants,
           newParticipantsNames
         );
 
+        this.campaignsRepository.update(updatedCampaign);
+
         let newCampaigns = this.campaigns
         .filter(currentCampaign => {
-          currentCampaign.getId() !== updatedCampaign.getId()
+          currentCampaign.getId() !== campaignToUpdate.getId()
         });
 
         this.campaigns = newCampaigns;

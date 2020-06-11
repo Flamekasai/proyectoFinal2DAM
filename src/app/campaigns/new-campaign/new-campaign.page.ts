@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { AlertController } from '@ionic/angular';
 
@@ -18,18 +18,37 @@ export class NewCampaignPage implements OnInit {
   private participants: User[] = [];
   private participantsIds: string[] = [];
 
+  private bIsEditing: boolean = false;
+  private currentId: string = '';
+  private currentTitle: string = '';
+  private currentMaster: string = '';
+
   constructor(
     private alertCtrl: AlertController,
     private usersRepository: UsersRepository,
     private campaignsRepository: CampaignsRepository,
-    private router: Router) { }
+    private router: Router,
+    private url: ActivatedRoute) {
+      this.url.params.subscribe(params => {
+        if (params.campaignId) {
+          this.bIsEditing = true;
+          this.campaignsRepository.get(params.campaignId)
+          .then(campaign => {
+            this.currentId = campaign.getId();
+            this.currentTitle = campaign.getTitle();
+            this.currentMaster = campaign.getMaster();
+            campaign.getParticipants().forEach(participant => {
+              this.addParticipant(null, participant);
+            });
+          });
+        }
+      });
+    }
 
     ngOnInit() {
     }
 
-    addParticipant(participantInput) {
-      let participantId = participantInput.value;
-
+    addParticipant(participantInput, participantId) {
       if (participantId === '') return;
 
       this.usersRepository.get(participantId)
@@ -49,7 +68,8 @@ export class NewCampaignPage implements OnInit {
           });
         }
       })
-      participantInput.value = '';
+      if (participantInput)
+        participantInput.value = '';
     }
 
     removeParticipant(participantId: string) {
@@ -62,7 +82,7 @@ export class NewCampaignPage implements OnInit {
       this.participantsIds = newParticipantsIds;
     }
 
-    createCampaign(form: NgForm) {
+    onSubmit(form: NgForm) {
       if (!form.valid) return;
 
       const title = form.value.title;
@@ -82,19 +102,26 @@ export class NewCampaignPage implements OnInit {
         }
 
         form.reset();
+
         let participantsNames = [];
         this.participants.forEach(participant => {
           participantsNames.push(participant.getName());
         });
+
         let newCampaign = new Campaign(
-          '',
+          this.currentId,
           title,
           master.getId(),
           master.getName(),
           this.participantsIds,
           participantsNames
         );
-        this.campaignsRepository.create(newCampaign);
+
+        if (!this.bIsEditing)
+          this.campaignsRepository.create(newCampaign);
+        else
+          this.campaignsRepository.update(newCampaign);
+
         this.router.navigateByUrl('/home/tabs/campaigns');
       });
     }

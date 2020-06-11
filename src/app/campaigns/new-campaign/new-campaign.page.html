@@ -14,17 +14,18 @@
         <ion-card>
           <ion-card-content>
             <form
-              #createCampaignForm="ngForm"
-              (ngSubmit)="createCampaign(createCampaignForm)"
+              #campaignForm="ngForm"
+              (ngSubmit)="onSubmit(campaignForm)"
               >
               <ion-list>
 
+                <!-- TODO: Update ngModel to variables on the .ts -->
                 <!-- Title of the campaign -->
                 <ion-item>
                   <ion-label position="floating">Título</ion-label>
                   <ion-input
                     type="text"
-                    ngModel
+                    [(ngModel)]="this.currentTitle"
                     name="title"
                     required
                     #titleCtrl="ngModel"
@@ -44,7 +45,7 @@
                   <ion-label position="floating">Master</ion-label>
                   <ion-input
                     type="text"
-                    ngModel
+                    [(ngModel)]="this.currentMaster"
                     name="master"
                     required
                     #masterCtrl="ngModel"
@@ -67,7 +68,7 @@
                 <ion-button
                   color="primary"
                   fill="outline"
-                  (click)="addParticipant(newParticipantCtrl)"
+                  (click)="addParticipant(newParticipantCtrl, newParticipantCtrl.value)"
                   >Añadir participante</ion-button>
 
                 <!-- Create button -->
@@ -76,8 +77,10 @@
                   type="submit"
                   expand="block"
                   fill="solid"
-                  [disabled]="!createCampaignForm.valid || this.participantsIds.length === 0"
-                  >Crear campaña</ion-button>
+                  [disabled]="!campaignForm.valid || this.participantsIds.length === 0"
+                  >
+                  {{ this.bIsEditing ? 'Actualizar campaña' : 'Crear campaña' }}
+                </ion-button>
 
                 <!-- Participants list -->
                 <ion-item

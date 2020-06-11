@@ -14,11 +14,6 @@ const routes: Routes = [
     .then( m => m.NewCampaignPageModule)
   },
   {
-    path: 'edit-campaign',
-    loadChildren: () => import('./edit-campaign/edit-campaign.module')
-    .then( m => m.EditCampaignPageModule)
-  },
-  {
     path: 'campaign-details',
     loadChildren: () => import('./campaign-details/campaign-details.module')
     .then( m => m.CampaignDetailsPageModule)

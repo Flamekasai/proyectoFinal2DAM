@@ -49,6 +49,7 @@
                 color="primary"
                 expand="block"
                 fill="solid"
+                (click)="this.editCampaign(campaign.getId())"
                 >Editar</ion-button>
               <ion-button
                 *ngIf="this.auth.getCurrentUser().getId() === campaign.getMaster()"

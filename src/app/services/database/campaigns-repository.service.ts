@@ -43,28 +43,27 @@ export class CampaignsRepository {
         return null;
       }
 
-      let data = doc.data();
-      return new Campaign(
-        data.id,
-        data.title,
-        data.master,
-        data.masterName,
-        data.participants,
-        data.participantsNames
-      );
+      let data = doc.data() as Campaign;
+      return Campaign.fromCampaign(data);
     });
   }
 
-  update(id: string, title: string, master: string, masterName: string, participants: string[], participantsNames: string[]) {
-    let docRef = this.collection.doc(id);
-    return docRef.update({title: title, master: master, masterName: masterName, participants: participants, participantsNames: participantsNames});
-  }
+  update(campaign: Campaign) {
+      let docRef = this.collection.doc(campaign.getId());
+      return docRef.update({
+        title: campaign.getTitle(),
+        master: campaign.getMaster(),
+        masterName: campaign.getMasterName(),
+        participants: campaign.getParticipants(),
+        participantsNames: campaign.getParticipantsNames()
+      });
+    }
 
-  delete(id: string) {
-    let docRef = this.collection.doc(id);
-    return docRef.delete()
-    .catch(() => {
-      console.log('Failed deleting the campaign.');
-    });
-  }
+    delete(id: string) {
+      let docRef = this.collection.doc(id);
+      return docRef.delete()
+      .catch(() => {
+        console.log('Failed deleting the campaign.');
+      });
+    }
 }

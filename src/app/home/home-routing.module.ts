@@ -30,10 +30,10 @@ const routes: Routes = [
             .then(m => m.NewCampaignPageModule)
           },
           {
-            path: 'edit-campaign/:campaignId',
+            path: 'new-campaign/:campaignId',
             canLoad: [AuthGuard],
-            loadChildren: () => import('../campaigns/edit-campaign/edit-campaign.module')
-            .then(m => m.EditCampaignPageModule)
+            loadChildren: () => import('../campaigns/new-campaign/new-campaign.module')
+            .then(m => m.NewCampaignPageModule)
           },
           {
             path: ':campaignId',
