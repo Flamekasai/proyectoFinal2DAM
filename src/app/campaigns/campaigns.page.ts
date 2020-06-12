@@ -47,6 +47,10 @@ export class CampaignsPage implements OnInit {
       this.router.navigate(['/home/tabs/campaigns/new-campaign', campaignId]);
     }
 
+    enterCampaign(campaignId: string) {
+      this.router.navigate(['/home', campaignId]);
+    }
+
     leaveCampaign(campaignId: string) {
       this.campaignsRepository.get(campaignId).then(campaignToUpdate => {
         let newParticipants = campaignToUpdate.getParticipants()

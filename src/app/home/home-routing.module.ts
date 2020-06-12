@@ -34,12 +34,6 @@ const routes: Routes = [
             canLoad: [AuthGuard],
             loadChildren: () => import('../campaigns/new-campaign/new-campaign.module')
             .then(m => m.NewCampaignPageModule)
-          },
-          {
-            path: ':campaignId',
-            canLoad: [AuthGuard],
-            loadChildren: () => import('../campaigns/campaign-details/campaign-details.module')
-            .then(m => m.CampaignDetailsPageModule)
           }
         ]
       },
@@ -55,6 +49,12 @@ const routes: Routes = [
         pathMatch: 'full'
       }
     ]
+  },
+  {
+    path: ':campaignId',
+    canLoad: [AuthGuard],
+    loadChildren: () => import('../campaigns/campaign-details/campaign-details.module')
+    .then(m => m.CampaignDetailsPageModule)
   },
   {
     path: '',
