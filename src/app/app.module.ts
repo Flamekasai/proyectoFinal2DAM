@@ -15,9 +15,25 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 
 import { environment } from '../environments/environment';
 
+import { CheckboxComponent } from './cards/checkbox/checkbox.component';
+import { NumberComponent } from './cards/number/number.component';
+import { ProgressComponent } from './cards/progress/progress.component';
+import { TextComponent } from './cards/text/text.component';
+
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [],
+  declarations: [
+    AppComponent,
+    CheckboxComponent,
+    NumberComponent,
+    ProgressComponent,
+    TextComponent
+  ],
+  entryComponents: [
+    CheckboxComponent,
+    NumberComponent,
+    ProgressComponent,
+    TextComponent
+  ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),

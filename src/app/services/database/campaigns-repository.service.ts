@@ -25,7 +25,8 @@ export class CampaignsRepository {
       master: campaign.getMaster(),
       masterName: campaign.getMasterName(),
       participants: campaign.getParticipants(),
-      participantsNames: campaign.getParticipantsNames()
+      participantsNames: campaign.getParticipantsNames(),
+      dashboard: Campaign.cardArrayToJson(campaign.getDashboard())
     });
   }
 
@@ -49,21 +50,22 @@ export class CampaignsRepository {
   }
 
   update(campaign: Campaign) {
-      let docRef = this.collection.doc(campaign.getId());
-      return docRef.update({
-        title: campaign.getTitle(),
-        master: campaign.getMaster(),
-        masterName: campaign.getMasterName(),
-        participants: campaign.getParticipants(),
-        participantsNames: campaign.getParticipantsNames()
-      });
-    }
+    let docRef = this.collection.doc(campaign.getId());
+    return docRef.update({
+      title: campaign.getTitle(),
+      master: campaign.getMaster(),
+      masterName: campaign.getMasterName(),
+      participants: campaign.getParticipants(),
+      participantsNames: campaign.getParticipantsNames(),
+      dashboard: Campaign.cardArrayToJson(campaign.getDashboard())
+    });
+  }
 
-    delete(id: string) {
-      let docRef = this.collection.doc(id);
-      return docRef.delete()
-      .catch(() => {
-        console.log('Failed deleting the campaign.');
-      });
-    }
+  delete(id: string) {
+    let docRef = this.collection.doc(id);
+    return docRef.delete()
+    .catch(() => {
+      console.log('Failed deleting the campaign.');
+    });
+  }
 }

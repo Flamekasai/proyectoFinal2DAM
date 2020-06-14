@@ -36,7 +36,6 @@ export class CampaignsPage implements OnInit {
             campaign.getParticipants().includes(userId))
           this.campaigns.push(campaign);
       });
-
     });
   }
 

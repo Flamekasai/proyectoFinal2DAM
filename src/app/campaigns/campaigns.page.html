@@ -17,11 +17,8 @@
   <ion-grid>
     <ion-row>
       <ion-col size-md="6" offset-md="3">
-        <ion-card
-          *ngFor="let campaign of this.campaigns"
-          (click)="this.enterCampaign(campaign.getId())"
-          >
-          <ion-card-header>
+        <ion-card *ngFor="let campaign of this.campaigns">
+          <ion-card-header (click)="this.enterCampaign(campaign.getId())">
             <ion-card-title
               class="ion-margin"
               >{{ campaign.title }}</ion-card-title>
