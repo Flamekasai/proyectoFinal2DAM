@@ -1,17 +1,16 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { ICard } from '../card.interface';
+import { CardImplementation } from '../card.implementation';
+import { Card } from '../card-item';
 
 @Component({
   selector: 'app-text',
   templateUrl: './text.component.html',
   styleUrls: ['./text.component.scss'],
 })
-export class TextComponent implements OnInit, ICard {
+export class TextComponent extends CardImplementation implements OnInit {
 
-  @Input() data: any;
-
-  constructor() { }
+  constructor() { super(); }
 
   ngOnInit() {}
 

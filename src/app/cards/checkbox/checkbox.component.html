@@ -1,7 +1,37 @@
 <ion-card>
   <ion-card-header>
     <ion-card-title>
-      checkbox works!
+      <ion-item>
+        <ion-input type="text" [(ngModel)]="this.data.title"></ion-input>
+        <ion-button
+          color="primary"
+          slot="end"
+          (click)="this.addCheckbox()"
+          >
+          <ion-icon name="add-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+      </ion-item>
     </ion-card-title>
   </ion-card-header>
+  <ion-card-content>
+    <ion-item *ngFor="let checkbox of this.data.value" lines="none">
+      <ion-checkbox
+        slot="start"
+        class="medium"
+        [(ngModel)]="checkbox.checked"
+        ></ion-checkbox>
+      <ion-input type="text" [(ngModel)]="checkbox.text"></ion-input>
+      <ion-button
+        fill="clear"
+        (click)="this.removeCheckbox(checkbox)"
+        slot="end"
+        >
+        <ion-icon
+          color="medium"
+          slot="icon-only"
+          name="close-outline"
+          ></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-card-content>
 </ion-card>

@@ -1,18 +1,28 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { ICard } from '../card.interface';
+import { CardImplementation } from '../card.implementation';
+import { Card } from '../card-item';
 
 @Component({
   selector: 'app-checkbox',
   templateUrl: './checkbox.component.html',
   styleUrls: ['./checkbox.component.scss'],
 })
-export class CheckboxComponent implements OnInit, ICard {
+export class CheckboxComponent extends CardImplementation implements OnInit {
 
-  @Input() data: any;
-
-  constructor() { }
+  constructor() { super(); }
 
   ngOnInit() {}
+
+  addCheckbox() {
+    this.data.value.push({text: 'Texto', checked: false});
+  }
+
+  removeCheckbox(checkBoxToDelete) {
+   let filteredArray = this.data.value
+   .filter(arrayEntry => checkBoxToDelete !== arrayEntry );
+
+   this.data.value = filteredArray;
+  }
 
 }

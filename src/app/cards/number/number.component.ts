@@ -1,17 +1,16 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { ICard } from '../card.interface';
+import { CardImplementation } from '../card.implementation';
+import { Card } from '../card-item';
 
 @Component({
   selector: 'app-number',
   templateUrl: './number.component.html',
   styleUrls: ['./number.component.scss'],
 })
-export class NumberComponent implements OnInit, ICard {
+export class NumberComponent extends CardImplementation implements OnInit {
 
-  @Input() data: any;
-
-  constructor() { }
+  constructor() { super(); }
 
   ngOnInit() {}
 

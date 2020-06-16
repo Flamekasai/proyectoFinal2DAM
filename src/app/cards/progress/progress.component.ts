@@ -1,17 +1,16 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { ICard } from '../card.interface';
+import { CardImplementation } from '../card.implementation';
+import { Card } from '../card-item';
 
 @Component({
   selector: 'app-progress',
   templateUrl: './progress.component.html',
   styleUrls: ['./progress.component.scss'],
 })
-export class ProgressComponent implements OnInit, ICard {
+export class ProgressComponent extends CardImplementation implements OnInit {
 
-  @Input() data: any;
-
-  constructor() { }
+  constructor() { super(); }
 
   ngOnInit() {}
 

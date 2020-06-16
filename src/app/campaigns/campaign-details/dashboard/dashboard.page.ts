@@ -1,6 +1,7 @@
 import {
   Component,
   OnInit,
+  OnDestroy,
   ViewChild,
   ViewContainerRef,
   ComponentFactoryResolver
@@ -24,9 +25,9 @@ import {
   templateUrl: './dashboard.page.html',
   styleUrls: ['./dashboard.page.scss'],
 })
-export class DashboardPage implements OnInit {
+export class DashboardPage implements OnInit, OnDestroy {
   private campaign: Campaign = null;
-  private components: ICard = [];
+  private components: ICard[] = [];
 
   @ViewChild('cardContainer', {read: ViewContainerRef, static: true}) container;
   constructor(
@@ -46,12 +47,26 @@ export class DashboardPage implements OnInit {
   }
 
   ionViewWillLeave() {
+    this.saveChanges();
+  }
+
+  ngOnDestroy() {
+    this.saveChanges();
+  }
+
+  saveChanges() {
     for (let component of this.components) {
-      component.saveContents();
+      component.saveContents(
+        this.components.indexOf(component),
+        this.campaign.getDashboard()
+      );
     }
+    this.campaignsRepository.update(this.campaign);
   }
 
   renderComponents() {
+    this.container.clear();
+    this.components = [];
     let cards = this.campaign.getDashboard();
     for (let card of cards) {
       const factory = this.resolver.resolveComponentFactory(card.component);
