@@ -31,7 +31,7 @@ export class Campaign {
       let result = [];
       for (let entry of data) {
         let component = Campaign.resolveComponentName(entry.type);
-        let card = new Card(component, entry.type, entry.value);
+        let card = new Card(component, entry.type, entry.title, entry.value);
         result.push(card);
       }
       return result;
@@ -40,7 +40,7 @@ export class Campaign {
     static cardArrayToJson(cards: Card[]) {
       let result = [];
       for (let card of cards) {
-        result.push({type: card.type, value: card.value});
+        result.push({type: card.type, title: card.title, value: card.value});
       }
       return result;
     }

@@ -26,6 +26,7 @@ import {
 })
 export class DashboardPage implements OnInit {
   private campaign: Campaign = null;
+  private components: ICard = [];
 
   @ViewChild('cardContainer', {read: ViewContainerRef, static: true}) container;
   constructor(
@@ -44,12 +45,20 @@ export class DashboardPage implements OnInit {
     });
   }
 
+  ionViewWillLeave() {
+    for (let component of this.components) {
+      component.saveContents();
+    }
+  }
+
   renderComponents() {
     let cards = this.campaign.getDashboard();
     for (let card of cards) {
       const factory = this.resolver.resolveComponentFactory(card.component);
       let componentRef = this.container.createComponent(factory);
-      (componentRef.instance as ICard).data = card.value;
+      let component = (componentRef.instance as ICard);
+      component.data = {title: card.title, value: card.value};
+      this.components.push(component);
     }
   }
 
