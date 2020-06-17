@@ -11,6 +11,9 @@ import {
   ICard
 } from '../../../cards/card.interface';
 import {
+  Card
+} from '../../../cards/card-item';
+import {
   Campaign
 } from '../../../models/campaign.model';
 import {
@@ -54,16 +57,6 @@ export class DashboardPage implements OnInit, OnDestroy {
     this.saveChanges();
   }
 
-  saveChanges() {
-    for (let component of this.components) {
-      component.saveContents(
-        this.components.indexOf(component),
-        this.campaign.getDashboard()
-      );
-    }
-    this.campaignsRepository.update(this.campaign);
-  }
-
   renderComponents() {
     this.container.clear();
     this.components = [];
@@ -72,9 +65,32 @@ export class DashboardPage implements OnInit, OnDestroy {
       const factory = this.resolver.resolveComponentFactory(card.component);
       let componentRef = this.container.createComponent(factory);
       let component = (componentRef.instance as ICard);
-      component.data = {title: card.title, value: card.value};
+      component.data = {type: card.type, title: card.title, value: card.value};
       this.components.push(component);
     }
+  }
+
+  saveChanges() {
+    let newDashboard = [];
+    for (let component of this.components) {
+      let card = new Card(
+        Campaign.resolveComponentName(component.data.type),
+        component.data.type,
+        component.data.title,
+        component.data.value
+      );
+      newDashboard.push(card);
+    }
+    let campaign = new Campaign(
+      this.campaign.getId(),
+      this.campaign.getTitle(),
+      this.campaign.getMaster(),
+      this.campaign.getMasterName(),
+      this.campaign.getParticipants(),
+      this.campaign.getParticipantsNames(),
+      newDashboard
+    );
+    this.campaignsRepository.update(campaign);
   }
 
 }
