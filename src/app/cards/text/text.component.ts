@@ -14,4 +14,9 @@ export class TextComponent extends CardImplementation implements OnInit {
 
   ngOnInit() {}
 
+  initDefaults(type: string) {
+    super.initDefaults(type);
+    this.data.value = 'Texto por defecto';
+  }
+
 }

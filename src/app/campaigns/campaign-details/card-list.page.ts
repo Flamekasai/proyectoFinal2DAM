@@ -11,6 +11,11 @@ import { CampaignsRepository } from '../../services/database/campaigns-repositor
 
 import { DetailsService } from '../../services/details.service';
 
+import { CheckboxComponent } from '../../cards/checkbox/checkbox.component';
+import { NumberComponent } from '../../cards/number/number.component';
+import { ProgressComponent } from '../../cards/progress/progress.component';
+import { TextComponent } from '../../cards/text/text.component';
+
 export class CardListPage {
   protected campaign: Campaign = null;
   protected components: CardImplementation[] = [];
@@ -42,7 +47,9 @@ export class CardListPage {
 
   updateComponents() {
     this.container.clear();
-    for (let component of this.components) {
+    let oldArray = this.components;
+    this.components = [];
+    for (let component of oldArray) {
       const factory = this.resolver.resolveComponentFactory(
         Campaign.resolveComponentName(component.data.type)
       );
@@ -54,7 +61,7 @@ export class CardListPage {
         title: component.data.title,
         value: component.data.value
       };
-      component = updatedComponent;
+      this.components.push(updatedComponent);
     }
   }
 
@@ -81,13 +88,39 @@ export class CardListPage {
     this.campaignsRepository.update(campaign);
   }
 
+  addComponent(type: string) {
+    let componentToAdd;
+    if (type === 'checkbox')
+      componentToAdd = new CheckboxComponent();
+    else if (type === 'number')
+      componentToAdd = new NumberComponent();
+    else if (type === 'progress')
+      componentToAdd = new ProgressComponent();
+    else if (type === 'text')
+      componentToAdd = new TextComponent();
+    componentToAdd.initDefaults(type);
+    componentToAdd.parent = this;
+    this.components.push(componentToAdd)
+    this.updateComponents();
+  }
+
   deleteComponent(componentToDelete: CardImplementation) {
-    let newArray = this.components
-    .filter(component => component !== componentToDelete);
-    if (newArray.length === 0) {
+    if (this.components.length === 1) {
       this.container.clear();
       this.components = [];
     } else {
+      let newArray = this.components
+      .filter(component => {
+        if (
+          component.data.title !== componentToDelete.data.title
+        || component.data.type !== componentToDelete.data.type
+        || component.data.value !== componentToDelete.data.value
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      });
       this.components = newArray;
       this.updateComponents();
     }

@@ -14,6 +14,11 @@ export class CheckboxComponent extends CardImplementation implements OnInit {
 
   ngOnInit() {}
 
+  initDefaults(type: string) {
+    super.initDefaults(type);
+    this.data.value = [{text: 'Texto', checked: false}];
+  }
+
   addCheckbox() {
     this.data.value.push({text: 'Texto', checked: false});
   }
