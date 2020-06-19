@@ -3,6 +3,9 @@ import {
   ComponentFactoryResolver
 } from '@angular/core';
 
+import { PickerController } from '@ionic/angular';
+import { PickerOptions } from '@ionic/core';
+
 import { CardImplementation } from '../../cards/card.implementation';
 import { Card } from '../../cards/card-item';
 
@@ -24,7 +27,8 @@ export class CardListPage {
   constructor(
     protected campaignsRepository: CampaignsRepository,
     protected resolver: ComponentFactoryResolver,
-    protected detailsService: DetailsService
+    protected detailsService: DetailsService,
+    protected pickerCtrl: PickerController
   ) {}
 
   updateComponents() {
@@ -45,6 +49,33 @@ export class CardListPage {
       };
       this.components.push(updatedComponent);
     }
+  }
+
+  async showSelectDialog() {
+    let options: PickerOptions = {
+      buttons: [
+        {text: 'Cancelar', role: 'cancel'},
+        {text: 'Ok', role: 'confirm'}
+      ],
+      columns: [
+        {
+          name: 'type', options: [
+            {text: 'Checkbox', value: 'checkbox'},
+            {text: 'Numero', value: 'number'},
+            {text: 'Barra de progreso', value: 'progress'},
+            {text: 'Texto', value: 'text'}
+          ]
+        }
+      ]
+    };
+    let picker = await this.pickerCtrl.create(options);
+    picker.present();
+    picker.onDidDismiss().then(async data => {
+      if (data.role === 'confirm') {
+        let col = await picker.getColumn('type');
+        this.addComponent(col.options[col.selectedIndex].value);
+      }
+    });
   }
 
   addComponent(type: string) {

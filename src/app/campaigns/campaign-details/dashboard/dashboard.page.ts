@@ -7,6 +7,9 @@ import {
   ComponentFactoryResolver
 } from '@angular/core';
 
+import { PickerController } from '@ionic/angular';
+import { PickerOptions } from '@ionic/core';
+
 import { CardImplementation } from '../../../cards/card.implementation';
 import { Card } from '../../../cards/card-item';
 
@@ -28,8 +31,9 @@ export class DashboardPage extends CardListPage implements OnInit, OnDestroy {
   constructor(
     protected campaignsRepository: CampaignsRepository,
     protected resolver: ComponentFactoryResolver,
-    protected detailsService: DetailsService
-  ) { super(campaignsRepository, resolver, detailsService); }
+    protected detailsService: DetailsService,
+    protected pickerCtrl: PickerController
+  ) { super(campaignsRepository, resolver, detailsService, pickerCtrl); }
 
   ngOnInit() {
   }
