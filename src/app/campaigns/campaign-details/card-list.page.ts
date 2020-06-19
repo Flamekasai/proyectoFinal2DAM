@@ -27,24 +27,6 @@ export class CardListPage {
     protected detailsService: DetailsService
   ) {}
 
-  onInit() {
-    this.campaignsRepository.get(this.detailsService.getCampaignId())
-    .then(campaign => {
-      this.campaign = campaign;
-      this.components = [];
-      this.container.clear();
-      let cards = this.campaign.getDashboard();
-      for (let card of cards) {
-        const factory = this.resolver.resolveComponentFactory(card.component);
-        let componentRef = this.container.createComponent(factory);
-        let component = (componentRef.instance as CardImplementation);
-        component.parent = this;
-        component.data = {type: card.type, title: card.title, value: card.value};
-        this.components.push(component);
-      }
-    });
-  }
-
   updateComponents() {
     this.container.clear();
     let oldArray = this.components;
@@ -63,29 +45,6 @@ export class CardListPage {
       };
       this.components.push(updatedComponent);
     }
-  }
-
-  saveChanges() {
-    let newDashboard = [];
-    this.components.forEach(component => {
-      let card = new Card(
-        Campaign.resolveComponentName(component.data.type),
-        component.data.type,
-        component.data.title,
-        component.data.value
-      );
-      newDashboard.push(card);
-    });
-    let campaign = new Campaign(
-      this.campaign.getId(),
-      this.campaign.getTitle(),
-      this.campaign.getMaster(),
-      this.campaign.getMasterName(),
-      this.campaign.getParticipants(),
-      this.campaign.getParticipantsNames(),
-      newDashboard
-    );
-    this.campaignsRepository.update(campaign);
   }
 
   addComponent(type: string) {

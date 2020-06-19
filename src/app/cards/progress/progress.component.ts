@@ -24,7 +24,6 @@ export class ProgressComponent extends CardImplementation implements OnInit {
     let result = Number.parseFloat((this.data.value + this.step).toFixed(2));
     if (result <= 1) {
       this.data.value = result;
-      console.log(result);
     }
   }
 
@@ -32,7 +31,6 @@ export class ProgressComponent extends CardImplementation implements OnInit {
     let result = Number.parseFloat((this.data.value - this.step).toFixed(2));
     if (result >= 0) {
       this.data.value = result;
-      console.log(result);
     }
   }
 }
