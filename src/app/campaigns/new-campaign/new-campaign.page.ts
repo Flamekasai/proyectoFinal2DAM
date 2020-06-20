@@ -22,6 +22,8 @@ export class NewCampaignPage implements OnInit {
   private currentId: string = '';
   private currentTitle: string = '';
   private currentMaster: string = '';
+  private currentDashboard = [];
+  private currentCharacters = [];
 
   constructor(
     private alertCtrl: AlertController,
@@ -40,6 +42,8 @@ export class NewCampaignPage implements OnInit {
             campaign.getParticipants().forEach(participant => {
               this.addParticipant(null, participant);
             });
+            this.currentDashboard = campaign.getDashboard();
+            this.currentCharacters = campaign.getCharacters();
           });
         }
       });
@@ -114,7 +118,9 @@ export class NewCampaignPage implements OnInit {
           master.getId(),
           master.getName(),
           this.participantsIds,
-          participantsNames
+          participantsNames,
+          this.currentDashboard,
+          this.currentCharacters
         );
 
         if (!this.bIsEditing)

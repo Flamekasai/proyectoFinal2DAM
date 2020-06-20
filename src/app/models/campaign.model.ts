@@ -13,7 +13,8 @@ export class Campaign {
     private masterName: string,
     private participants: string[],
     private participantsNames: string[],
-    private dashboard: Card[] = []) {}
+    private dashboard: Card[] = [],
+    private characters = []) {}
 
     static fromCampaign(model: Campaign) {
       return new Campaign(
@@ -23,7 +24,8 @@ export class Campaign {
         model.masterName,
         model.participants,
         model.participantsNames,
-        Campaign.jsonToCardArray(model.dashboard)
+        Campaign.jsonToCardArray(model.dashboard),
+        Campaign.jsonToCharacters(model.characters)
       );
     }
 
@@ -37,10 +39,25 @@ export class Campaign {
       return result;
     }
 
+    static jsonToCharacters(data: any) {
+      let result = [];
+      for (let character of data)
+        result[character.id] = Campaign.jsonToCardArray(character.cards);
+      return result;
+    }
+
     static cardArrayToJson(cards: Card[]) {
       let result = [];
       for (let card of cards) {
         result.push({type: card.type, title: card.title, value: card.value});
+      }
+      return result;
+    }
+
+    static charactersToJson(characters) {
+      let result = [];
+      for (let i in characters) {
+        result.push({id: i, cards: Campaign.cardArrayToJson(characters[i])});
       }
       return result;
     }
@@ -65,7 +82,6 @@ export class Campaign {
     getParticipants() { return this.participants; }
     getParticipantsNames() { return this.participantsNames; }
     getDashboard() { return this.dashboard; }
-
-    // TODO: Add character page
+    getCharacters() { return this.characters; }
 
 }

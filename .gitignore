@@ -17,6 +17,8 @@ $RECYCLE.BIN/
 log.txt
 npm-debug.log*
 
+config.xml
+
 /.idea
 /.ionic
 /.sass-cache
@@ -29,3 +31,5 @@ npm-debug.log*
 /platforms
 /plugins
 /www
+/resources
+/android

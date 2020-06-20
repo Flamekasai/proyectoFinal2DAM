@@ -27,7 +27,6 @@ export class CampaignsPage implements OnInit {
   {
     this.campaignsRepository.getAll().subscribe(campaigns => {
       this.campaigns = [];
-
       campaigns.forEach(data => {
         let campaign = Campaign.fromCampaign(data);
         let userId = this.auth.getCurrentUser().getId();
@@ -62,13 +61,20 @@ export class CampaignsPage implements OnInit {
           participantName !== this.auth.getCurrentUser().getName()
         });
 
+        let oldCharacters = campaignToUpdate.getParticipants();
+        let newCharacters = [];
+        for (let participant of newParticipants)
+          newCharacters[participant] = oldCharacters[participant];
+
         let updatedCampaign = new Campaign(
           campaignToUpdate.getId(),
           campaignToUpdate.getTitle(),
           campaignToUpdate.getMaster(),
           campaignToUpdate.getMasterName(),
           newParticipants,
-          newParticipantsNames
+          newParticipantsNames,
+          campaignToUpdate.getDashboard(),
+          newCharacters
         );
 
         this.campaignsRepository.update(updatedCampaign);

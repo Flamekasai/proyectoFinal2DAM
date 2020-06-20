@@ -26,7 +26,8 @@ export class CampaignsRepository {
       masterName: campaign.getMasterName(),
       participants: campaign.getParticipants(),
       participantsNames: campaign.getParticipantsNames(),
-      dashboard: Campaign.cardArrayToJson(campaign.getDashboard())
+      dashboard: Campaign.cardArrayToJson(campaign.getDashboard()),
+      characters: Campaign.charactersToJson(campaign.getCharacters())
     });
   }
 
@@ -57,7 +58,8 @@ export class CampaignsRepository {
       masterName: campaign.getMasterName(),
       participants: campaign.getParticipants(),
       participantsNames: campaign.getParticipantsNames(),
-      dashboard: Campaign.cardArrayToJson(campaign.getDashboard())
+      dashboard: Campaign.cardArrayToJson(campaign.getDashboard()),
+      characters: Campaign.charactersToJson(campaign.getCharacters())
     });
   }
 

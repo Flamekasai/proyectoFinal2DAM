@@ -82,7 +82,8 @@ export class DashboardPage extends CardListPage implements OnInit, OnDestroy {
       this.campaign.getMasterName(),
       this.campaign.getParticipants(),
       this.campaign.getParticipantsNames(),
-      newDashboard
+      newDashboard,
+      this.campaign.getCharacters()
     );
     this.campaignsRepository.update(campaign);
   }
