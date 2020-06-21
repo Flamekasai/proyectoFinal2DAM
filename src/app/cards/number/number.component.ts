@@ -14,4 +14,17 @@ export class NumberComponent extends CardImplementation implements OnInit {
 
   ngOnInit() {}
 
+  initDefaults(type: string) {
+    super.initDefaults(type);
+    this.data.value = 0;
+  }
+
+  incrementNumber() {
+    this.data.value += 1;
+  }
+
+  decrementNumber() {
+    this.data.value -= 1;
+  }
+
 }

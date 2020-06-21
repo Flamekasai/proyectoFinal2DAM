@@ -1,7 +1,50 @@
 <ion-card>
   <ion-card-header>
     <ion-card-title>
-      number works!
+      <ion-item>
+        <ion-input type="text" [(ngModel)]="this.data.title"></ion-input>
+        <ion-button
+          fill="clear"
+          slot="end"
+          (click)="this.addNumber()"
+          >
+          <ion-icon color="primary" name="add-outline" slot="icon-only"></ion-icon>
+        </ion-button>
+        <ion-button
+          color="danger"
+          fill="clear"
+          slot="end"
+          (click)="this.delete()"
+          >
+          <ion-icon
+            color="danger"
+            name="trash-outline"
+            slot="icon-only"
+            ></ion-icon>
+        </ion-button>
+      </ion-item>
     </ion-card-title>
   </ion-card-header>
+  <ion-card-content>
+    <ion-item lines="none">
+      <ion-input
+        type="number"
+        [value]="this.data.value"
+        ></ion-input>
+      <ion-button
+        fill="clear"
+        slot="end"
+        (click)="this.decrementNumber()"
+        >
+        <ion-icon slot="icon-only" name="remove-outline"></ion-icon>
+      </ion-button>
+      <ion-button
+        fill="clear"
+        slot="end"
+        (click)="this.incrementNumber()"
+        >
+        <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-card-content>
 </ion-card>

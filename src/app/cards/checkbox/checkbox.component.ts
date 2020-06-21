@@ -26,7 +26,6 @@ export class CheckboxComponent extends CardImplementation implements OnInit {
   removeCheckbox(checkBoxToDelete) {
    let filteredArray = this.data.value
    .filter(arrayEntry => checkBoxToDelete !== arrayEntry );
-
    this.data.value = filteredArray;
   }
 
