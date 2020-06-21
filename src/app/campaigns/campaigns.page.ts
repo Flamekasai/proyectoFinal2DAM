@@ -52,20 +52,17 @@ export class CampaignsPage implements OnInit {
     leaveCampaign(campaignId: string) {
       this.campaignsRepository.get(campaignId).then(campaignToUpdate => {
         let newParticipants = campaignToUpdate.getParticipants()
-        .filter(participant => {
-          participant !== this.auth.getCurrentUser().getId()
-        });
-
+        .filter(participant =>
+                participant !== this.auth.getCurrentUser().getId());
         let newParticipantsNames = campaignToUpdate.getParticipantsNames()
-        .filter(participantName => {
-          participantName !== this.auth.getCurrentUser().getName()
-        });
+        .filter(participantName =>
+                participantName !== this.auth.getCurrentUser().getName());
 
-        let oldCharacters = campaignToUpdate.getParticipants();
+        let oldCharacters = campaignToUpdate.getCharacters();
         let newCharacters = [];
         for (let participant of newParticipants)
-          newCharacters[participant] = oldCharacters[participant];
-
+          if (oldCharacters[participant] !== undefined)
+            newCharacters[participant] = oldCharacters[participant];
         let updatedCampaign = new Campaign(
           campaignToUpdate.getId(),
           campaignToUpdate.getTitle(),
